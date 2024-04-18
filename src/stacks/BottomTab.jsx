@@ -1,14 +1,15 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/app/Home';
 import Market from '../screens/app/Market';
 import Trade from '../screens/app/Trade';
 import Profile from '../screens/app/Profile';
 import Wallet from '../screens/app/Wallet';
-import {SvgXml} from 'react-native-svg';
-import {assets} from '../assets/images/assets';
-import {useTheme} from '../assets/theme/Theme';
-import {Text, View} from 'react-native';
+import { SvgXml } from 'react-native-svg';
+import { assets } from '../assets/images/assets';
+import { useTheme } from '../assets/theme/Theme';
+import { Text, View } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,11 +17,11 @@ function BottomTab() {
   const theme = useTheme();
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
+      screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#0a1220",
+          backgroundColor: '#0a1220',
           height: 74,
           border: 'none',
           outline: 'none',
@@ -30,19 +31,16 @@ function BottomTab() {
           elevation: 3,
           borderRadius: 5,
         },
-        tabBarIcon: ({color, size, focused}) => {
-          const iconName = assets.nav[route.name.toLowerCase()];
+        tabBarIcon: ({ color, size, focused }) => {
+          // const iconName =  assets.nav[route.name.toLowerCase()];
+          const iconName = focused ? assets.nav['active' + route.name.toLowerCase() ] : assets.nav[route.name.toLowerCase()];
           const fillColor = focused ? theme.blue : theme.background;
+          const bgColor = focused ? theme.blue : '#0a1220'; 
 
           return (
-            <View style={theme.flex.column}>
-              <SvgXml
-                xml={iconName}
-                width={23}
-                height={24}
-                fill={theme.blue}
-              />
-              <Text style={{fontSize: 12}}>{route.name}</Text>
+            <View style={[theme.flex.column, { backgroundColor: "#0a1220" , borderRadius: 12 , width: "62%", padding: 2}]}>
+              <SvgXml xml={iconName} width={23} height={24}  />
+              <Text style={{ fontSize: 12, color: focused ? theme.blue : 'white' }}>{route.name}</Text>
             </View>
           );
         },

@@ -1,11 +1,13 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, useColorScheme} from 'react-native';
 import React from 'react';
 import {assets} from '../assets/images/assets';
 import {useTheme} from '../assets/theme/Theme';
 import {SvgXml} from 'react-native-svg';
+import { fonts } from '../assets/fonts';
 
 const BalanceCard = () => {
   const theme = useTheme();
+  const isDarkMode = useColorScheme() === 'dark'
   const styles = StyleSheet.create({
     balancecard: {
       width: '90%',
@@ -17,17 +19,27 @@ const BalanceCard = () => {
       paddingHorizontal:20,
       paddingVertical:10,
       borderRadius: 20,
-      marginVertical: 35,
+      marginVertical: 20,
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+      
+      elevation: 2,
     },
   });
   return (
-    <View style={styles.balancecard}>
-      <Text style={{fontSize: 15, color: theme.text}}>Estimated Balance</Text>
+    <View style={[styles.balancecard, {shadowColor: isDarkMode  ? '#fff' : '#000'}]}>
+      <Text style={{fontSize: 15, color: theme.text, fontFamily: fonts.medium}}>Estimated Balance</Text>
       <View
         style={{
           ...theme.flex.fullRow,
           justifyContent: 'flex-start',
           width: '100%',
+          alignItems: 'center',
+          justifyContent:'flex-start'
         }}>
         <Text
           style={{
@@ -38,7 +50,7 @@ const BalanceCard = () => {
           }}>
           $
         </Text>
-        <Text style={{fontSize: 35, color: theme.blue}}>3000</Text>
+        <Text style={{fontSize: 30, color: theme.blue, fontFamily: fonts.regular}}>3000</Text>
         <Text
           style={{
             backgroundColor: theme.chip,
@@ -48,6 +60,7 @@ const BalanceCard = () => {
             marginLeft: 10,
             borderRadius: 30,
             color: 'white',
+            fontFamily: fonts.regular
           }}>
           810% <SvgXml xml={assets.up} />
         </Text>
@@ -58,12 +71,13 @@ const BalanceCard = () => {
           justifyContent: 'flex-start',
           width: '100%',
         }}>
-        <Text style={{fontSize: 16, color: theme.blue}}>$1224</Text>
+        <Text style={{fontSize: 16, color: theme.blue, fontFamily: fonts.regular}}>$1224</Text>
         <Text
           style={{
             fontSize: 10,
             paddingHorizontal: 10,
             color: theme.text,
+            fontFamily: fonts.regular
           }}>
           {'(Today)'}
         </Text>
@@ -73,20 +87,20 @@ const BalanceCard = () => {
           ...theme.flex.fullRow,
           justifyContent: 'space-between',
           width: '100%',
-          paddingHorizontal:30,
+          paddingHorizontal:20,
         }}>
         <View style={{...theme.flex.row}}>
-          <SvgXml xml={assets.profit} style={{marginRight:10}} />
+          <SvgXml xml={assets.profit} style={{marginRight:8}} />
           <View style={{...theme.flex.column}}>
-            <Text style={{fontSize:24,color:theme.text}}>$50</Text>
-            <Text style={{fontSize:16,color:theme.blue}}>Profit</Text>
+            <Text style={{fontSize:24,color:theme.text, fontFamily: fonts.regular, marginTop: 10}}>$50</Text>
+            <Text style={{fontSize:16,color:theme.blue, fontFamily: fonts.regular}}>Profit</Text>
           </View>
         </View>
          <View style={{...theme.flex.row}}>
-          <SvgXml xml={assets.balanceCard.image} style={{marginRight:10}} />
+          <SvgXml xml={assets.balanceCard.image} style={{marginRight:8}} />
           <View style={{...theme.flex.column}}>
-            <Text style={{fontSize:24,color:theme.text}}>$3000</Text>
-            <Text style={{fontSize:16,color:theme.blue}}>Available</Text>
+            <Text style={{fontSize:24,color:theme.text, fontFamily: fonts.regular, marginTop: 10}}>$3000</Text>
+            <Text style={{fontSize:16,color:theme.blue, fontFamily: fonts.regular}}>Available</Text>
           </View>
         </View>
       </View>
