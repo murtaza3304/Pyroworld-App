@@ -99,7 +99,6 @@ function SignUp({ navigation }) {
           value={fullName}
           onChangeText={setFullName}
         />
-        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
         <TextInput
           style={[
             styles.input,
@@ -114,7 +113,8 @@ function SignUp({ navigation }) {
           value={email}
           onChangeText={setEmail}
         />
-        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+
 
         <View style={{ width: '100%' }}>
           <TextInput
@@ -137,14 +137,16 @@ function SignUp({ navigation }) {
               alignItems: 'center',
               justifyContent: 'center',
               right: 10,
-              top: 12,
+              top: 35,
+              // backgroundColor:'green'
             }}
             onPress={TogglePassword}
           >
             <SvgXml xml={secureMode ? assets.closeEye : assets.openEye} />
           </TouchableOpacity>
         </View>
-        {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
+        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+
 
         <View style={{ width: '100%' }}>
           <TextInput
@@ -167,7 +169,7 @@ function SignUp({ navigation }) {
               alignItems: 'center',
               justifyContent: 'center',
               right: 10,
-              top: 12,
+              top: 35,
             }}
             onPress={toggleConfirmSecure}
           >
@@ -176,6 +178,8 @@ function SignUp({ navigation }) {
             />
           </TouchableOpacity>
         </View>
+        {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
+
         <TouchableOpacity
           style={styles.signUpButton}
           onPress={handleSignUp}
@@ -219,7 +223,8 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 15,
-    marginBottom: 20,
+    // marginBottom: 10,
+    marginTop: 20
   },
   signUpButton: {
     width: '100%',
@@ -228,6 +233,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#007bff',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 20
   },
   signUpButtonText: {
     color: '#fff',
@@ -242,7 +248,8 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    marginTop: 5,
+    marginTop: 0,
+    marginBottom: 6,
     alignSelf: 'flex-start',
   },
 });

@@ -7,8 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  ScrollView,
-  Alert,
+  ActivityIndicator, 
 } from 'react-native';
 import { logo } from '../../assets/images';
 import { fonts } from '../../assets/fonts';
@@ -24,6 +23,7 @@ function Login({ navigation }) {
   const [isSecureMode, setSecureMode] = useState(true);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [isLoading, setLoading] = useState(false); // State for loading indicator
 
   const handleEmail = (text) => {
     setEmail(text);
@@ -57,7 +57,11 @@ function Login({ navigation }) {
       setPasswordError('Password must be at least 6 characters long');
       return;
     }
-    navigation.navigate('App');
+    setLoading(true); 
+    setTimeout(() => {
+      setLoading(false); 
+      navigation.navigate('App');
+    }, 2000); 
   };
 
   return (
@@ -81,7 +85,6 @@ function Login({ navigation }) {
       >
         SIGN IN
       </Text>
-      <Text style={styles.errorText}>{emailError}</Text>
       <TextInput
         style={[
           styles.input,
@@ -90,13 +93,16 @@ function Login({ navigation }) {
             color: isDarkMode ? '#fff' : '#000',
           },
         ]}
+        autoCompleteType={false}
+
         placeholder="Email"
         placeholderTextColor={isDarkMode ? '#888' : '#666'}
         value={email}
         onChangeText={handleEmail}
       />
-      <Text style={styles.errorText}>{passwordError}</Text>
-      <View style={{ width: '100%' , marginBottom: 25}}>
+      <Text style={styles.errorText}>{emailError}</Text>
+
+      <View style={{ width: '100%', marginBottom: 25, marginTop: 6 ,borderRadius:8}}>
         <TextInput
           style={[
             styles.input,
@@ -111,6 +117,8 @@ function Login({ navigation }) {
           value={password}
           onChangeText={handlePassword}
         />
+        <Text style={styles.errorText}>{passwordError}</Text>
+
         <TouchableOpacity
           style={{ position: 'absolute', right: 10, top: 15 }}
           onPress={showPassword}
@@ -120,8 +128,13 @@ function Login({ navigation }) {
       </View>
 
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={[styles.loginButtonText, { width: 50 }]}>Login</Text>
-      </TouchableOpacity>
+     
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#fff" />
+      ) : (
+          <Text style={[styles.loginButtonText, { width: 50 }]}>Login</Text>
+      )}
+        </TouchableOpacity>
       <View
         style={{
           width: '100%',
@@ -166,6 +179,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 15,
+    zIndex:1
   },
   loginButton: {
     width: '100%',
@@ -187,7 +201,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    marginTop: 5,
+    marginTop: 0,
     alignSelf: 'flex-start',
   },
 });

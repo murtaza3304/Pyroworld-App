@@ -1095,7 +1095,6 @@ const Wallet = () => {
                         right: 0,
                         zIndex: 1,
                         color: 'green',
-                        // backgroundColor: 'red',
                         width: 50,
                       }}>
                       Copied!
@@ -1105,7 +1104,7 @@ const Wallet = () => {
                     onPress={() =>
                       copyToClipboard('TCaT7LSCpWcCF176bQiowq5EHjysyTiMgK')
                     }>
-                    <SvgXml xml={assets.settings} />
+                    <SvgXml xml={assets.CopyText} />
                   </TouchableOpacity>
                 </View>
               </View>

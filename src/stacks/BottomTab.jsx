@@ -8,14 +8,16 @@ import Wallet from '../screens/app/Wallet';
 import { SvgXml } from 'react-native-svg';
 import { assets } from '../assets/images/assets';
 import { useTheme } from '../assets/theme/Theme';
-import { Text, View } from 'react-native';
+import { Text, View, useColorScheme } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
+const isDarkMode = useColorScheme === 'dark'
 
 function BottomTab() {
   const theme = useTheme();
   return (
+    <View style={{backgroundColor: isDarkMode? '#fff' : '#0a1224', position: 'absolute', width: '100%', bottom: 0, height: '100%'}}>
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
@@ -29,8 +31,10 @@ function BottomTab() {
           margin: 0,
           padding: 0,
           elevation: 3,
-          borderRadius: 5,
+          borderTopEndRadius: 5,
+          borderTopStartRadius: 5,
         },
+       
         tabBarIcon: ({ color, size, focused }) => {
           // const iconName =  assets.nav[route.name.toLowerCase()];
           const iconName = focused ? assets.nav['active' + route.name.toLowerCase() ] : assets.nav[route.name.toLowerCase()];
@@ -51,6 +55,7 @@ function BottomTab() {
       <Tab.Screen name="Wallet" component={Wallet} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
+    </View>
   );
 }
 

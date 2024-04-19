@@ -4,7 +4,6 @@ import {Svg, SvgXml} from 'react-native-svg';
 import {getLogo} from '../../assets/images';
 import Chart from './Chart';
 import {fonts} from '../../assets/fonts';
-import {color} from 'react-native-reanimated';
 
 export default function PriceCard({data, layout, wallet}) {
   const isDarkMode = useColorScheme() === 'dark'
@@ -24,17 +23,14 @@ export default function PriceCard({data, layout, wallet}) {
       borderRadius: 20,
       paddingHorizontal: layout && 10,
       overflow: 'hidden',
-      
 shadowOffset: {
 	width: 0,
 	height: 1,
 },
 shadowOpacity: 0.22,
 shadowRadius: 2.22,
-
 elevation: 2,
     },
-
     head: {
       ...theme.flex.row,
       justifyContent: 'flex-start',
@@ -54,7 +50,7 @@ elevation: 2,
           width={40}
         />
         <View style={{marginHorizontal: 3}}>
-          <Text style={{color: theme.blue, fontSize: 18, width: 128}}>
+          <Text style={{color: theme.blue, fontSize: 18, width: 100}}>
             {data.name}
           </Text>
           <Text style={{color: theme.gray, fontSize: 12}}>{data.symbol}</Text>

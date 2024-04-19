@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   useColorScheme
 } from 'react-native';
-import {logo} from '../../../assets/images';
 import {useTheme} from '../../../assets/theme/Theme';
 import {SvgXml} from 'react-native-svg';
 import {assets} from '../../../assets/images/assets';
