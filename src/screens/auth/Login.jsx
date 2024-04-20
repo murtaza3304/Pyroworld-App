@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   useColorScheme,
@@ -7,71 +7,80 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  ActivityIndicator, 
+  ActivityIndicator,
 } from 'react-native';
-import { logo } from '../../assets/images';
-import { fonts } from '../../assets/fonts';
-import { useTheme } from '../../assets/theme/Theme';
-import { SvgXml } from 'react-native-svg';
-import { assets } from '../../assets/images/assets';
+import {logo} from '../../assets/images';
+import {fonts} from '../../assets/fonts';
+import {useTheme} from '../../assets/theme/Theme';
+import {SvgXml} from 'react-native-svg';
+import {assets} from '../../assets/images/assets';
+import {signin} from '../../api';
+import {signinValidation} from '../../validations';
 
-function Login({ navigation }) {
+function Login({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isSecureMode, setSecureMode] = useState(true);
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
   const [isLoading, setLoading] = useState(false); // State for loading indicator
 
-  const handleEmail = (text) => {
-    setEmail(text);
-    setEmailError('');
-  };
+  // const handleEmail = text => {
+  //   setEmail(text);
+  //   setEmailError('');
+  // };
 
-  const handlePassword = (text) => {
-    setPassword(text);
-    setPasswordError('');
-  };
+  // const handlePassword = text => {
+  //   setPassword(text);
+  //   setPasswordError('');
+  // };
 
   const showPassword = () => {
     setSecureMode(!isSecureMode);
   };
 
-  const validateEmail = (email) => {
-    const regex = /\S+@\S+\.\S+/;
-    return regex.test(email);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleLogin = async () => {
+    const error = signinValidation(formData);
+    if (Object.keys(error).length > 0) {
+      setErrors(error);
+      return;
+    } else {
+      try {
+        const response = await signin(formData);
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
-  const validatePassword = (password) => {
-    return password.length >= 6;
-  };
+  console.log(errors, 'eeeee');
 
-  const handleLogin = () => {
-    if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address');
-      return;
-    }
-    if (!validatePassword(password)) {
-      setPasswordError('Password must be at least 6 characters long');
-      return;
-    }
-    setLoading(true); 
-    setTimeout(() => {
-      setLoading(false); 
-      navigation.navigate('App');
-    }, 2000); 
+  const handleChange = (name, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+    setErrors(prev => ({
+      ...prev,
+      [name]: '',
+    }));
   };
 
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: isDarkMode ? '#000' : '#fff' },
-      ]}
-    >
-      <Image source={logo} style={{ width: 100, height: 100 }} />
+        {backgroundColor: isDarkMode ? '#000' : '#fff'},
+      ]}>
+      <Image source={logo} style={{width: 100, height: 100}} />
       <Text
         style={[
           styles.title,
@@ -81,8 +90,7 @@ function Login({ navigation }) {
             width: '100%',
             textAlign: 'center',
           },
-        ]}
-      >
+        ]}>
         SIGN IN
       </Text>
       <TextInput
@@ -94,15 +102,20 @@ function Login({ navigation }) {
           },
         ]}
         autoCompleteType={false}
-
         placeholder="Email"
         placeholderTextColor={isDarkMode ? '#888' : '#666'}
-        value={email}
-        onChangeText={handleEmail}
+        value={formData.email}
+        onChangeText={text => handleChange('email', text)}
       />
-      <Text style={styles.errorText}>{emailError}</Text>
+      <Text style={styles.errorText}>{errors?.email}</Text>
 
-      <View style={{ width: '100%', marginBottom: 25, marginTop: 6 ,borderRadius:8}}>
+      <View
+        style={{
+          width: '100%',
+          marginBottom: 25,
+          marginTop: 6,
+          borderRadius: 8,
+        }}>
         <TextInput
           style={[
             styles.input,
@@ -114,27 +127,25 @@ function Login({ navigation }) {
           placeholder="Password"
           placeholderTextColor={isDarkMode ? '#888' : '#666'}
           secureTextEntry={isSecureMode}
-          value={password}
-          onChangeText={handlePassword}
+          value={formData.password}
+          onChangeText={text => handleChange('password', text)}
         />
-        <Text style={styles.errorText}>{passwordError}</Text>
+        <Text style={styles.errorText}>{errors?.password}</Text>
 
         <TouchableOpacity
-          style={{ position: 'absolute', right: 10, top: 15 }}
-          onPress={showPassword}
-        >
+          style={{position: 'absolute', right: 10, top: 15}}
+          onPress={showPassword}>
           <SvgXml xml={isSecureMode ? assets.openEye : assets.closeEye} />
         </TouchableOpacity>
       </View>
 
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-     
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#fff" />
-      ) : (
-          <Text style={[styles.loginButtonText, { width: 50 }]}>Login</Text>
-      )}
-        </TouchableOpacity>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#fff" />
+        ) : (
+          <Text style={[styles.loginButtonText, {width: 50}]}>Login</Text>
+        )}
+      </TouchableOpacity>
       <View
         style={{
           width: '100%',
@@ -142,20 +153,18 @@ function Login({ navigation }) {
           justifyContent: 'center',
           marginTop: 20,
           flexDirection: 'row',
-        }}
-      >
+        }}>
         <Text
           style={[
             styles.textStyle,
             {
               color: isDarkMode ? '#fff' : '#000',
             },
-          ]}
-        >
+          ]}>
           Don't have an account
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Text style={[styles.textStyle, { color: theme.blue }]}>Sign up</Text>
+          <Text style={[styles.textStyle, {color: theme.blue}]}>Sign up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -179,7 +188,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 15,
-    zIndex:1
+    zIndex: 1,
   },
   loginButton: {
     width: '100%',
