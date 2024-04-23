@@ -5,6 +5,8 @@ import BottomTab from './BottomTab';
 import setting from '../screens/app/Profile/setting';
 import EmailAuthantication from '../screens/auth/EmailAuthantication';
 import PasswordReset from '../screens/auth/PasswordReset';
+import ResetAuthCode from '../screens/auth/ResetAuthCode';
+import NewPassword from '../screens/auth/NewPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +21,8 @@ function Authstack() {
       <Stack.Screen name='setting' component={setting} />
       <Stack.Screen name='EmailAuthantication' component={EmailAuthantication} />
       <Stack.Screen name='PasswordReset' component={PasswordReset} />
+      <Stack.Screen name='ResetAuthCode' component={ResetAuthCode} />
+      <Stack.Screen name='NewPassword' component={NewPassword} />
       
 
     </Stack.Navigator>

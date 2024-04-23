@@ -12,65 +12,28 @@ import {
 import {logo} from '../../assets/images';
 import {useTheme} from '../../assets/theme/Theme';
 import {fonts} from '../../assets/fonts';
-import {SvgXml} from 'react-native-svg';
-import {assets} from '../../assets/images/assets';
-import {register} from '../../api';
-import {signUpValidation} from '../../validations';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function PasswordReset({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
-  const [secureMode, setSecureMode] = useState(true);
-  const [confirmPasswordSecure, setConfirmPasswordSecure] = useState(true)
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
-    password: '',
-    confirmPassword: '',
   });
   const [errors, setErrors] = useState({
     email: '',
-    password: '',
-    confirmPassword: '',
   });
-
-  const TogglePassword = () => {
-    setSecureMode(!secureMode);
-  };
-
-  const toggleConfirmSecure = () => {
-    setConfirmPasswordSecure(!confirmPasswordSecure);
-  };
-
-
   const handleSignUp = async () => {
-    // const error = signUpValidation(formData);
-    // if (Object.keys(error).length > 0) {
-    //   setErrors(error);
-    //   return;
-    // } else {
-    //   const { confirmPassword, ...rest } = formData;
-    //   try {
-    //     const response = await register(rest);
-    //     await AsyncStorage.setItem('tokens', JSON.parse(response));
-    //     console.log(response, "token...........................");
-    //     navigation.navigate('BottomTab')
-    //   } catch (error) {
-    //     console.error('registration error:', error);
-    //   }
-    // }
-    navigation.navigate('App')
+    navigation.navigate('ResetAuthCode');
   };
-  
+
   return (
     <View
       style={[
         styles.container,
         {backgroundColor: isDarkMode ? '#000' : '#fff', paddingTop: 50},
       ]}>
-      <Image source={logo} style={{width: 100, height: 100, marginBottom: 6, }} />
-      <View style={{width: 220, justifyContent: 'center'}}>
+      <Image source={logo} style={{width: 100, height: 100, marginBottom: 6}} />
+      <View style={{width: 140, justifyContent: 'center'}}>
         <Text
           style={[
             styles.title,
@@ -78,13 +41,12 @@ function PasswordReset({navigation}) {
               color: isDarkMode ? '#fff' : '#000',
             },
           ]}>
-          RESET PASSWORD
+          Enter Email
         </Text>
       </View>
       <ScrollView
         style={{width: '100%', height: '100%'}}
         showsVerticalScrollIndicator={false}>
-
         <TextInput
           style={[
             styles.input,
@@ -101,68 +63,6 @@ function PasswordReset({navigation}) {
           onChangeText={text => handleChange('email', text)}
         />
         {<Text style={styles.errorText}>{errors?.email}</Text>}
-
-        <View style={{width: '100%'}}>
-          <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: isDarkMode ? '#333' : '#ddd',
-                color: isDarkMode ? '#fff' : '#000',
-              },
-            ]}
-            placeholder="Password"
-            placeholderTextColor={isDarkMode ? '#888' : '#666'}
-            secureTextEntry={secureMode}
-            value={formData.password}
-            onChangeText={text => handleChange('password', text)}
-          />
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              alignItems: 'center',
-              justifyContent: 'center',
-              right: 10,
-              top: 15,
-            }}
-            onPress={TogglePassword}>
-            <SvgXml xml={secureMode ? assets.closeEye : assets.openEye} />
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.errorText}>{errors?.password}</Text>
-
-        <View style={{width: '100%'}}>
-          <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: isDarkMode ? '#333' : '#ddd',
-                color: isDarkMode ? '#fff' : '#000',
-              },
-            ]}
-            placeholder="Confirm Password"
-            placeholderTextColor={isDarkMode ? '#888' : '#666'}
-            secureTextEntry={confirmPasswordSecure}
-            value={formData.confirmPassword}
-            onChangeText={text => handleChange('confirmPassword', text)}
-          />
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              alignItems: 'center',
-              justifyContent: 'center',
-              right: 10,
-              top: 15,
-            }}
-            onPress={toggleConfirmSecure}>
-            <SvgXml
-              xml={confirmPasswordSecure ? assets.closeEye : assets.openEye}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.errorText}>{errors?.confirmPassword}</Text>
 
         <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
           <Text style={styles.signUpButtonText}>Reset Password</Text>
@@ -183,7 +83,6 @@ function PasswordReset({navigation}) {
             }}>
             Already have an account
           </Text>
-
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={[styles.textStyle, {color: theme.blue}]}>Login</Text>
           </TouchableOpacity>
@@ -210,8 +109,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 15,
-    // marginBottom: 10,
-    // marginTop: 20,
   },
   signUpButton: {
     width: '100%',
