@@ -18,7 +18,7 @@ import {register} from '../../api';
 import {signUpValidation} from '../../validations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function SignUp({navigation}) {
+function PasswordReset({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
   const [secureMode, setSecureMode] = useState(true);
@@ -30,7 +30,6 @@ function SignUp({navigation}) {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState({
-    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -63,17 +62,6 @@ function SignUp({navigation}) {
     // }
     navigation.navigate('App')
   };
-
-  const handleChange = (name, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [name]: value, 
-    }));
-    setErrors(prev => ({
-      ...prev,
-      [name]: '', 
-    }));
-  };
   
   return (
     <View
@@ -81,8 +69,8 @@ function SignUp({navigation}) {
         styles.container,
         {backgroundColor: isDarkMode ? '#000' : '#fff', paddingTop: 50},
       ]}>
-      <Image source={logo} style={{width: 100, height: 100, marginBottom: 6}} />
-      <View style={{width: 96, justifyContent: 'center'}}>
+      <Image source={logo} style={{width: 100, height: 100, marginBottom: 6, }} />
+      <View style={{width: 220, justifyContent: 'center'}}>
         <Text
           style={[
             styles.title,
@@ -90,26 +78,12 @@ function SignUp({navigation}) {
               color: isDarkMode ? '#fff' : '#000',
             },
           ]}>
-          SIGN UP
+          RESET PASSWORD
         </Text>
       </View>
       <ScrollView
         style={{width: '100%', height: '100%'}}
         showsVerticalScrollIndicator={false}>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: isDarkMode ? '#333' : '#ddd',
-              color: isDarkMode ? '#fff' : '#000',
-            },
-          ]}
-          placeholder="Full Name"
-          placeholderTextColor={isDarkMode ? '#888' : '#666'}
-          value={formData.name}
-          onChangeText={text => handleChange('name', text)}
-        />
-        <Text style={styles.errorText}>{errors?.name}</Text>
 
         <TextInput
           style={[
@@ -150,7 +124,6 @@ function SignUp({navigation}) {
               justifyContent: 'center',
               right: 10,
               top: 15,
-              // backgroundColor:'green'
             }}
             onPress={TogglePassword}>
             <SvgXml xml={secureMode ? assets.closeEye : assets.openEye} />
@@ -192,7 +165,7 @@ function SignUp({navigation}) {
         <Text style={styles.errorText}>{errors?.confirmPassword}</Text>
 
         <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-          <Text style={styles.signUpButtonText}>Sign Up</Text>
+          <Text style={styles.signUpButtonText}>Reset Password</Text>
         </TouchableOpacity>
         <View
           style={{
@@ -253,7 +226,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-    width: 75,
+    width: 130,
   },
   textStyle: {
     fontSize: 14,
@@ -268,4 +241,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default PasswordReset;

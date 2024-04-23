@@ -54,7 +54,6 @@ function Login({navigation}) {
     } else {
       try {
         const response = await signin(formData);
-        
       } catch (error) {
         console.log(error);
       }
@@ -72,6 +71,9 @@ function Login({navigation}) {
       ...prev,
       [name]: '',
     }));
+  };
+  const forgetPassword = () => {
+    navigation.navigate('PasswordReset');
   };
 
   return (
@@ -130,8 +132,27 @@ function Login({navigation}) {
           value={formData.password}
           onChangeText={text => handleChange('password', text)}
         />
-        <Text style={styles.errorText}>{errors?.password}</Text>
-
+        <View style={{flexDirection: 'row', width: '100%'}}>
+          <Text style={styles.errorText}>{errors?.password}</Text>
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              backgroundColor: 'green',
+              width: '100%',
+            }}
+            onPress={() => forgetPassword()}>
+            <Text
+              style={{
+                fontSize: 12,
+                color: theme.blue,
+                fontFamily: fonts.semibold,
+                position: 'absolute',
+                right: 0,
+              }}>
+              Forget Password
+            </Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
           style={{position: 'absolute', right: 10, top: 15}}
           onPress={showPassword}>
@@ -212,6 +233,7 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 0,
     alignSelf: 'flex-start',
+    width:'70%'
   },
 });
 
