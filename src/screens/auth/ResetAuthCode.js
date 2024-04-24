@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,18 +6,133 @@ import {
   View,
   useColorScheme,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {assets} from '../../assets/images/assets';
 import {useTheme} from '../../assets/theme/Theme';
 import {fonts} from '../../assets/fonts';
-import {color, greaterThan} from 'react-native-reanimated';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
+import {logo} from '../../assets/images';
+import {resetPassword} from '../../api';
+import { resetPasswordValidation } from '../../validations';
+
 
 const ResetAuthCode = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
-  const [code, setCode] = useState('');
+  const [formData, setFormData] = useState({
+    token: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [errors, setErrors] = useState({
+    password: '',
+    confirmPassword: '',
+  });
+
+  const handleChange = (field, value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      [field]: value,
+    }));
+    setErrors(prevState => ({
+      ...prevState,
+      [field]: "",
+    }));
+  };
+
+  const renderPasswordFields = () => {
+    if (formData?.token?.length !== 4) {
+      return null;
+    }
+
+    const handleSubmit = async () => {
+      const {confirmPassword,...rest} = formData;
+
+      const rejection = resetPasswordValidation(rest);
+      if (Object.keys(rejection)?.length > 0) {
+        setErrors(rejection);
+        return;
+      } else {
+        try {
+          const {confirmPassword,...rest} = formData;
+          await resetPassword(rest);
+          navigation.navigate('Login');
+        } catch (error) {
+          console.log('error', error);
+        }
+      }
+    };
+
+    return (
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: isDarkMode ? '#000' : '#fff', marginTop: 30},
+        ]}>
+        <Text
+          style={{
+            color: isDarkMode ? '#fff' : '#000',
+            fontFamily: fonts.bold,
+            fontSize: 22,
+            marginVertical: 20,
+          }}>
+          Set Password
+        </Text>
+        <View style={{width: '100%'}}>
+          <TextInput
+            style={[
+              styles.input,
+              {
+                backgroundColor: isDarkMode ? '#333' : '#ddd',
+                color: isDarkMode ? '#fff' : '#000',
+              },
+            ]}
+            placeholder="Password"
+            placeholderTextColor={isDarkMode ? '#888' : '#666'}
+            // secureTextEntry={true}
+            value={formData.password}
+            onChangeText={text => handleChange('password', text)}
+          />
+        </View>
+
+        <Text style={styles.errorText}>{errors?.password}</Text>
+
+        <View style={{width: '100%'}}>
+          <TextInput
+            style={[
+              styles.input,
+              {
+                backgroundColor: isDarkMode ? '#333' : '#ddd',
+                color: isDarkMode ? '#fff' : '#000',
+              },
+            ]}
+            placeholder="Confirm Password"
+            placeholderTextColor={isDarkMode ? '#888' : '#666'}
+            // secureTextEntry={true}
+            value={formData.confirmPassword}
+            onChangeText={text => handleChange('confirmPassword', text)}
+          />
+        </View>
+
+        <Text style={styles.errorText}>{errors?.confirmPassword}</Text>
+        <TouchableOpacity
+          style={[styles.BtnStyle, {backgroundColor: '#007bff', width: '100%'}]}
+          onPress={handleSubmit}>
+          <Text
+            style={{
+              color: 'white',
+              fontFamily: fonts.bold,
+              fontSize: 18,
+            }}>
+            Verify
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <View
       style={{
@@ -49,25 +164,12 @@ const ResetAuthCode = ({navigation}) => {
             color: isDarkMode ? '#fff' : '#000',
             fontFamily: fonts.regular,
           }}>
-          Please enter the four degit code send to
+          Please enter the four digit code sent to your
         </Text>
-        <View style={{flexDirection: 'row', fontFamily: fonts.bold}}>
-          <Text
-            style={{
-              color: isDarkMode ? '#fff' : '#000',
-              fontFamily: fonts.bold,
-              marginRight: 4,
-            }}>
-            1234@gmail.com
-          </Text>
-          <Text
-            style={{
-              color: isDarkMode ? '#fff' : '#000',
-              fontFamily: fonts.regular,
-            }}>
-            Through SMS
-          </Text>
-        </View>
+        <Text
+          style={{color: isDarkMode ? '#fff' : '#000', fontFamily: fonts.bold}}>
+          Mail
+        </Text>
       </View>
       <View
         style={{
@@ -87,10 +189,10 @@ const ResetAuthCode = ({navigation}) => {
           cellStyleFocused={{
             borderColor: isDarkMode ? '#fff' : '#000',
           }}
-          value={code}
+          value={formData?.token}
           cellSpacing={10}
           codeLength={4}
-          onTextChange={text => setCode(text, console.log('......', text))}
+          onTextChange={text => handleChange('token', text)}
         />
       </View>
       <View
@@ -110,36 +212,13 @@ const ResetAuthCode = ({navigation}) => {
         </Text>
         <TouchableOpacity>
           <Text style={{color: theme.blue, fontFamily: fonts.bold}}>
-            Resend Code
+            Try Again
           </Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 2,
-        }}>
-        <Text
-          style={{color: isDarkMode ? '#fff' : '#000', fontFamily: fonts.bold}}>
-          Wrong Email
-        </Text>
-      </View>
-      <View>
-        <TouchableOpacity
-          style={[styles.BtnStyle, {backgroundColor: '#007bff'}]}
-          onPress={() => navigation.navigate('NewPassword')}>
-          <Text
-            style={{
-              color: 'white',
-              fontFamily: fonts.bold,
-              fontSize: 18,
-            }}>
-            Verify
-          </Text>
-        </TouchableOpacity>
-      </View>
+
+      {renderPasswordFields()}
+
       <View
         style={{
           width: '100%',
@@ -153,7 +232,7 @@ const ResetAuthCode = ({navigation}) => {
             fontFamily: fonts.regular,
             fontSize: 13,
           }}>
-          By continuining you are indicating that you accept our
+          By continuing you are indicating that you accept our
         </Text>
         <View
           style={{
@@ -217,10 +296,31 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
   },
   BtnStyle: {
-    marginTop: 20,
     paddingVertical: 15,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
+  },
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  input: {
+    width: '100%',
+    height: 50,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+  },
+  textStyle: {
+    fontSize: 14,
+    marginRight: 6,
+    fontFamily: fonts.regular,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 0,
+    marginBottom: 6,
+    alignSelf: 'flex-start',
   },
 });

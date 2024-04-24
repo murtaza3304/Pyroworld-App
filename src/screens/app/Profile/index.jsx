@@ -1,11 +1,21 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity, useColorScheme} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  useColorScheme,
+} from 'react-native';
 import {useTheme} from '../../../assets/theme/Theme';
 import {assets} from '../../../assets/images/assets';
 import {SvgXml} from 'react-native-svg';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {logout} from '../../../api';
+
 const Profile = ({navigation}) => {
-  const isDarkMode = useColorScheme() === 'dark'
+  const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
   const data = [
     {
@@ -22,6 +32,10 @@ const Profile = ({navigation}) => {
     },
     {
       name: 'Wallet',
+      icon: assets.profileAssets.wallet,
+    },
+    {
+      name: 'Log Out',
       icon: assets.profileAssets.wallet,
     },
   ];
@@ -72,7 +86,7 @@ const Profile = ({navigation}) => {
           </Text>
         </View>
         <View style={{position: 'absolute', right: 10}}>
-          <SvgXml xml={ !isDarkMode ? assets.editdarkmode : assets.edit} />
+          <SvgXml xml={!isDarkMode ? assets.editdarkmode : assets.edit} />
         </View>
       </View>
       <FlatList
@@ -87,8 +101,13 @@ const Profile = ({navigation}) => {
               justifyContent: 'space-between',
               paddingHorizontal: 15,
             }}
-            onPress={item.name === 'Settings' ? handleSettingsPress : null} 
-          >
+            onPress={
+              item.name === 'Settings'
+                ? handleSettingsPress
+                : item.name === 'Log Out'
+                ? () => logout(navigation)
+                : null
+            }>
             <View style={{...theme.flex.row, justifyContent: 'flex-start'}}>
               <SvgXml xml={item.icon} />
               <Text style={{fontSize: 20, color: theme.text, marginLeft: 20}}>

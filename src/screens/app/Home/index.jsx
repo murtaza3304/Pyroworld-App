@@ -6,7 +6,7 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-  useColorScheme
+  useColorScheme,
 } from 'react-native';
 import {useTheme} from '../../../assets/theme/Theme';
 import {SvgXml} from 'react-native-svg';
@@ -15,11 +15,19 @@ import PriceCard from '../../../components/PriceCard/PriceCard';
 import {cryptoData} from './data';
 import {BalanceCard} from '../../../components';
 import {fonts} from '../../../assets/fonts';
+import {useAuth} from '../../../hooks';
+import {useEffect} from 'react';
 
 function Home({navigation}) {
   const theme = useTheme();
-  const isDarkMode = useColorScheme() === 'dark'
+  const isDarkMode = useColorScheme() === 'dark';
   const numColumns = 2;
+  const {user, tokens} = useAuth();
+  useEffect(() => {
+    if (!user && !tokens) {
+      navigation.navigate('Login');
+    }
+  }, [user, tokens]);
 
   const styles = StyleSheet.create({
     view: {
@@ -34,7 +42,6 @@ function Home({navigation}) {
       height: 40,
       ...theme.flex.row,
       justifyContent: 'space-between',
-    
     },
     text: {
       color: theme.text,
@@ -96,11 +103,19 @@ function Home({navigation}) {
           </View>
           <View style={styles.icons}>
             <TouchableOpacity>
-              <SvgXml xml={ isDarkMode? assets.notificationdarkmode : assets.notificationlightmode}/>
+              <SvgXml
+                xml={
+                  isDarkMode
+                    ? assets.notificationdarkmode
+                    : assets.notificationlightmode
+                }
+              />
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('setting')}>
-              <SvgXml xml={isDarkMode? assets.SettingDarkMode : assets.settings}/>
+              <SvgXml
+                xml={isDarkMode ? assets.SettingDarkMode : assets.settings}
+              />
             </TouchableOpacity>
           </View>
         </View>

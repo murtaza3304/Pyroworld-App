@@ -21,17 +21,17 @@ function Login({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
   const [isSecureMode, setSecureMode] = useState(true);
-  const [isLoading, setLoading] = useState(false); // State for loading indicator
+  const [isLoading, setLoading] = useState(false);
 
-  // const handleEmail = text => {
-  //   setEmail(text);
-  //   setEmailError('');
-  // };
+  const handleEmail = text => {
+    setEmail(text);
+    setEmailError('');
+  };
 
-  // const handlePassword = text => {
-  //   setPassword(text);
-  //   setPasswordError('');
-  // };
+  const handlePassword = text => {
+    setPassword(text);
+    setPasswordError('');
+  };
 
   const showPassword = () => {
     setSecureMode(!isSecureMode);
@@ -54,6 +54,11 @@ function Login({navigation}) {
     } else {
       try {
         const response = await signin(formData);
+        setFormData({
+          email: '',
+          password: '',
+        });
+        navigation.navigate('App');
       } catch (error) {
         console.log(error);
       }
@@ -228,12 +233,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginRight: 6,
     fontFamily: fonts.regular,
+    textAlign:"center"
+
   },
   errorText: {
     color: 'red',
     marginTop: 0,
     alignSelf: 'flex-start',
-    width:'70%'
+    width: '70%',
   },
 });
 

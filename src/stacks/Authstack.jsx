@@ -14,7 +14,7 @@ function Authstack() {
   return (
     <Stack.Navigator screenOptions={{headerShown:false}}>
       {/* <Stack.Screen name="App" component={BottomTab}/> */}
-      {/* <Stack.Screen name="Home" component={BottomTab}/> */}
+      {/* <Stack.Screen name="App" component={BottomTab}/> */}
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="App" component={BottomTab} />

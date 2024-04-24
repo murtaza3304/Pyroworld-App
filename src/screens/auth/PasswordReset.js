@@ -12,6 +12,8 @@ import {
 import {logo} from '../../assets/images';
 import {useTheme} from '../../assets/theme/Theme';
 import {fonts} from '../../assets/fonts';
+import {forgetPassword} from '../../api';
+import {forgetPasswordValidation} from '../../validations';
 
 function PasswordReset({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
@@ -23,71 +25,109 @@ function PasswordReset({navigation}) {
     email: '',
   });
   const handleSignUp = async () => {
-    navigation.navigate('ResetAuthCode');
-  };
+    const rejection = forgetPasswordValidation(formData);
+    if (Object.keys(rejection).length > 0) {
+      setErrors(rejection);
+      return;
+    }
 
+    try {
+      await forgetPassword(formData);
+      navigation.navigate('ResetAuthCode');
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  const handleChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+    setErrors(prev => ({
+      ...prev,
+      [field]: '',
+    }));
+  };
   return (
     <View
       style={[
         styles.container,
-        {backgroundColor: isDarkMode ? '#000' : '#fff', paddingTop: 50},
+        {backgroundColor: isDarkMode ? '#000' : '#fff', height: '100%'},
       ]}>
-      <Image source={logo} style={{width: 100, height: 100, marginBottom: 6}} />
-      <View style={{width: 140, justifyContent: 'center'}}>
-        <Text
-          style={[
-            styles.title,
-            {
-              color: isDarkMode ? '#fff' : '#000',
-            },
-          ]}>
-          Enter Email
-        </Text>
-      </View>
-      <ScrollView
-        style={{width: '100%', height: '100%'}}
-        showsVerticalScrollIndicator={false}>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: isDarkMode ? '#333' : '#ddd',
-              color: isDarkMode ? '#fff' : '#000',
-            },
-          ]}
-          placeholder="Email"
-          placeholderTextColor={isDarkMode ? '#888' : '#666'}
-          keyboardType="email-address"
-          value={formData.email}
-          name="email"
-          onChangeText={text => handleChange('email', text)}
+      <View
+        style={{
+          height: '70%',
+          justifyContent: 'center',
+          width: '100%',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}>
+        <Image
+          source={logo}
+          style={{width: 100, height: 100, marginBottom: 6}}
         />
-        {<Text style={styles.errorText}>{errors?.email}</Text>}
-
-        <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-          <Text style={styles.signUpButtonText}>Reset Password</Text>
-        </TouchableOpacity>
-        <View
-          style={{
-            marginTop: 10,
-            flexDirection: 'row',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+        <View style={{width: 160, justifyContent: 'center'}}>
           <Text
-            style={{
-              color: isDarkMode ? '#fff' : '#000',
-              marginRight: 6,
-              fontFamily: fonts.regular,
-            }}>
-            Already have an account
+            style={[
+              styles.title,
+              {
+                color: isDarkMode ? '#fff' : '#000',
+              },
+            ]}>
+            Foget Password
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={[styles.textStyle, {color: theme.blue}]}>Login</Text>
-          </TouchableOpacity>
         </View>
-      </ScrollView>
+        <ScrollView
+          style={{width: '100%', height: '100%'}}
+          showsVerticalScrollIndicator={false}>
+          <TextInput
+            style={[
+              styles.input,
+              {
+                backgroundColor: isDarkMode ? '#333' : '#ddd',
+                color: isDarkMode ? '#fff' : '#000',
+              },
+            ]}
+            placeholder="Enter Your Email"
+            placeholderTextColor={isDarkMode ? '#888' : '#666'}
+            keyboardType="email-address"
+            value={formData.email}
+            onChangeText={text => handleChange('email', text)}
+          />
+          {<Text style={styles.errorText}>{errors?.email}</Text>}
+
+          <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
+            <Text
+              style={{
+                ...styles.signUpButtonText,
+                width: '100%',
+                textAlign: 'center',
+              }}>
+              Confirm
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              marginTop: 10,
+              flexDirection: 'row',
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                color: isDarkMode ? '#fff' : '#000',
+                marginRight: 6,
+                fontFamily: fonts.regular,
+              }}>
+              Already remebered?
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={[styles.textStyle, {color: theme.blue}]}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
     </View>
   );
 }
@@ -97,7 +137,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
     paddingHorizontal: 20,
+    height: '100%',
   },
   title: {
     fontSize: 24,

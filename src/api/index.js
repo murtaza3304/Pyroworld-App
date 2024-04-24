@@ -1,4 +1,3 @@
-import {register} from './routes/auth';
-import {signin} from './routes/auth';
+import {signin, logout, register,forgetPassword, resetPassword} from './routes/auth';
 
-export {register, signin};
+export {register, signin,logout,forgetPassword, resetPassword};

@@ -22,7 +22,7 @@ function SignUp({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
   const [secureMode, setSecureMode] = useState(true);
-  const [confirmPasswordSecure, setConfirmPasswordSecure] = useState(true)
+  const [confirmPasswordSecure, setConfirmPasswordSecure] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -44,37 +44,33 @@ function SignUp({navigation}) {
     setConfirmPasswordSecure(!confirmPasswordSecure);
   };
 
-
   const handleSignUp = async () => {
-    // const error = signUpValidation(formData);
-    // if (Object.keys(error).length > 0) {
-    //   setErrors(error);
-    //   return;
-    // } else {
-    //   const { confirmPassword, ...rest } = formData;
-    //   try {
-    //     const response = await register(rest);
-    //     await AsyncStorage.setItem('tokens', JSON.parse(response));
-    //     console.log(response, "token...........................");
-    //     navigation.navigate('BottomTab')
-    //   } catch (error) {
-    //     console.error('registration error:', error);
-    //   }
-    // }
-    navigation.navigate('App')
+    const error = signUpValidation(formData);
+    if (Object.keys(error).length > 0) {
+      setErrors(error);
+      return;
+    } else {
+      const {confirmPassword, ...rest} = formData;
+      try {
+        await register(rest);
+        navigation.navigate('App');
+      } catch (error) {
+        console.error('registration error:', error);
+      }
+    }
   };
 
   const handleChange = (name, value) => {
     setFormData(prev => ({
       ...prev,
-      [name]: value, 
+      [name]: value,
     }));
     setErrors(prev => ({
       ...prev,
-      [name]: '', 
+      [name]: '',
     }));
   };
-  
+
   return (
     <View
       style={[
@@ -254,6 +250,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     width: 75,
+    textAlign:"center"
   },
   textStyle: {
     fontSize: 14,

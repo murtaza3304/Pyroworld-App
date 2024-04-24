@@ -29,6 +29,17 @@ export const signUpValidation = data => {
 
   return errors;
 };
+export const forgetPasswordValidation = data => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const errors = {};
+
+  // Validate email
+  if (!emailRegex.test(data.email)) {
+    errors.email = 'Please enter a valid email';
+  }
+
+  return errors;
+};
 export const signinValidation = data => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const errors = {};
@@ -47,5 +58,21 @@ export const signinValidation = data => {
       'Password must contain at least one letter, one number, one special character';
   }
 
+  return errors;
+};
+export const resetPasswordValidation = data => {
+  let errors = {};
+  if (
+    !/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+      data.password,
+    )
+  ) {
+    errors.password =
+      'Password must contain at least one letter, one number, one special character';
+  }
+  if (data.password === data.confirmPassword) {
+    errors.confirmPassword = 'Passwords do not match.';
+  }
+  console.log("errrorrrrrrs",errors)
   return errors;
 };
