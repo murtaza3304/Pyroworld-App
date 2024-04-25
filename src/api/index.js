@@ -1,3 +1,19 @@
-import {signin, logout, register,forgetPassword, resetPassword} from './routes/auth';
+import {
+  signin,
+  logout,
+  register,
+  forgetPassword,
+  resetPassword,
+  emailVerification,
+  verifyEmail
+} from './routes/auth';
 
-export {register, signin,logout,forgetPassword, resetPassword};
+export {
+  register,
+  signin,
+  logout,
+  forgetPassword,
+  resetPassword,
+  emailVerification,
+  verifyEmail
+};

@@ -11,12 +11,15 @@ import {useTheme} from '../../../assets/theme/Theme';
 import {assets} from '../../../assets/images/assets';
 import {SvgXml} from 'react-native-svg';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logout} from '../../../api';
+import {useAuth} from '../../../hooks';
 
 const Profile = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
+  const {user , tokens,isEmailVerified} = useAuth();
+
+
   const data = [
     {
       name: 'Billing/Payment',
@@ -51,6 +54,7 @@ const Profile = ({navigation}) => {
   const handleSettingsPress = () => {
     navigation.navigate('setting');
   };
+  console.log(user, 'iseeeeeeeeeeeeeeeeeeeeeeeeee');
 
   return (
     <View style={styles.view}>
@@ -80,9 +84,9 @@ const Profile = ({navigation}) => {
             marginLeft: 25,
             alignItems: 'flex-start',
           }}>
-          <Text style={{fontSize: 25, color: theme.text}}>Joshua</Text>
-          <Text style={{fontSize: 15, color: theme.gray}}>
-            Joshua@gmail.com
+          <Text style={{fontSize: 25, color: theme.text}}>{user?.name?user.name:"ADMIN"}</Text>
+          <Text style={{fontSize: 15, color: theme.gray,width:187}}>
+            {user?.email ? user.email:"admin@pyroworld.com"}
           </Text>
         </View>
         <View style={{position: 'absolute', right: 10}}>

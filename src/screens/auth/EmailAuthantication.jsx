@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,12 +13,25 @@ import {useTheme} from '../../assets/theme/Theme';
 import {fonts} from '../../assets/fonts';
 import {color, greaterThan} from 'react-native-reanimated';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-
+import {verifyEmail, emailVerification} from '../../api';
 
 const EmailAuthantication = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
   const [code, setCode] = useState('');
+  const handleSubmit = async () => {
+    if (code.length === 4) {
+      try {
+        await verifyEmail(code);
+        navigation.navigate('AppStack');
+      } catch (error) {
+        console.log('erprr', error);
+      }
+    }
+  };
+  useEffect(() => {
+    emailVerification();
+  }, []);
   return (
     <View
       style={{
@@ -70,26 +83,29 @@ const EmailAuthantication = ({navigation}) => {
           </Text>
         </View>
       </View>
-      <View style={{width: '100%', height: 50, width: '100%', alignItems: 'center' , marginTop: 20}}>
-
-      <SmoothPinCodeInput
-      textStyle={{color: isDarkMode? '#fff' : '#000', fontSize: 30}}
-      
-  cellSize={50}
-  cellStyle={{
-    borderBottomWidth: 2,
-    borderColor: 'gray',
-  }}
-  cellStyleFocused={{
-    borderColor: isDarkMode? '#fff' : '#000'
-  }}
-  value={code}
-  cellSpacing={10} 
-  codeLength={4} 
-  onTextChange={text => setCode(text, console.log('......' ,text))} 
-
-/>
-
+      <View
+        style={{
+          width: '100%',
+          height: 50,
+          width: '100%',
+          alignItems: 'center',
+          marginTop: 20,
+        }}>
+        <SmoothPinCodeInput
+          textStyle={{color: isDarkMode ? '#fff' : '#000', fontSize: 30}}
+          cellSize={50}
+          cellStyle={{
+            borderBottomWidth: 2,
+            borderColor: 'gray',
+          }}
+          cellStyleFocused={{
+            borderColor: isDarkMode ? '#fff' : '#000',
+          }}
+          value={code}
+          cellSpacing={10}
+          codeLength={4}
+          onTextChange={text => setCode(text, console.log('......', text))}
+        />
       </View>
       <View
         style={{
@@ -106,7 +122,7 @@ const EmailAuthantication = ({navigation}) => {
           }}>
           Didn't Receive a code
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={emailVerification}>
           <Text style={{color: theme.blue, fontFamily: fonts.bold}}>
             Resend Code
           </Text>
@@ -126,7 +142,9 @@ const EmailAuthantication = ({navigation}) => {
       </View>
       <View>
         <TouchableOpacity
-          style={[styles.BtnStyle, {backgroundColor: '#007bff'}]} onPress={()=> navigation.navigate('App')}>
+          style={[styles.BtnStyle, {backgroundColor: '#007bff'}]}
+          onPress={handleSubmit}
+          disabled={code.length !== 4}>
           <Text
             style={{
               color: 'white',

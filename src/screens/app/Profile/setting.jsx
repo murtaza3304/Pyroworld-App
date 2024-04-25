@@ -4,6 +4,8 @@ import {SvgXml} from 'react-native-svg';
 import {assets} from '../../../assets/images/assets';
 import {fonts} from '../../../assets/fonts/index';
 import {useTheme} from '../../../assets/theme/Theme';
+import { logout } from '../../../api';
+
 
 const Setting = ({navigation}) => {
   const theme = useTheme();
@@ -24,6 +26,10 @@ const Setting = ({navigation}) => {
       name: 'Privacy Policy',
       icon: assets.privacyPolicy,
     },
+    {
+      name: 'Logout',
+      icon: assets.privacyPolicy,
+    },
   ];
   return (
     <View style={[styles.mainContainer,{backgroundColor: theme.background}]}>
@@ -31,11 +37,11 @@ const Setting = ({navigation}) => {
         <TouchableOpacity
           style={{borderRadius: 100}}
           onPress={() => {
-            navigation.navigate('BottomTab');
+            navigation.navigate('App');
           }}>
           <SvgXml xml={assets.back} />
         </TouchableOpacity>
-        <Text style={styles.textStyle}>Settings</Text>
+        <Text style={[styles.textStyle, {color: theme.text}]}>Settings</Text>
       </View>
       <View style={styles.contentContainer}>
         <Image
@@ -63,37 +69,7 @@ const Setting = ({navigation}) => {
           />
         </View>
       </View>
-      <View
-        style={{
-          height: 80,
-          width: '100%',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-        <TouchableOpacity
-          style={[styles.BtnStyle, {backgroundColor: "#21BF73"}]}>
-          <Text
-            style={{
-              fontSize: 16,
-              color: 'white',
-              fontFamily: fonts.semibold,
-            }}>
-            Register
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.BtnStyle, {backgroundColor: "#38B6FF"}]}>
-          <Text
-            style={{
-              fontSize: 16,
-              color: 'white',
-              fontFamily: fonts.semibold,
-            }}>
-            Sign in
-          </Text>
-        </TouchableOpacity>
-      </View>
+      
       <View>
       <FlatList
         contentContainerStyle={{width: '100%', marginTop: 10}}
@@ -107,7 +83,8 @@ const Setting = ({navigation}) => {
               justifyContent: 'space-between',
               paddingHorizontal: 15,
             }}
-           
+            onPress={()=>item.name==="Logout" && logout(navigation)}
+
           >
             <View style={{...theme.flex.row, justifyContent: 'flex-start'}}>
               <SvgXml xml={item.icon}  />

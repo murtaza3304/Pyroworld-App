@@ -76,10 +76,9 @@ const Wallet = () => {
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: "#999",
+      borderWidth: (0.5),
       borderRadius: 10,
       paddingHorizontal: 10,
-      // marginHorizontal:20,
       marginVertical: 10,
     },
     icon: {
@@ -91,7 +90,6 @@ const Wallet = () => {
     input: {
       flex: 1,
       height: 40,
-      color: 'white',
       fontSize: 16,
     },
     FlatListcontainer: {
@@ -122,7 +120,7 @@ const Wallet = () => {
       width: '100%',
       marginVertical: 6,
       borderWidth: 0,
-      // borderColor: isDarkMode ? 'grey' : 'grey',
+      // borderColor: theme.gray,
       borderRadius: 1,
       padding: 10,
       marginTop: 20,
@@ -336,7 +334,7 @@ const Wallet = () => {
             {
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
-              backgroundColor: isDarkMode ? '#fff' : '#000',
+              backgroundColor: theme.background,
             },
           ]}>
           {/* Deposit Modal Contant */}
@@ -347,15 +345,13 @@ const Wallet = () => {
               alignItems: 'center',
               marginHorizontal: 25,
             }}>
-            <View style={styles.container}>
-              <SvgXml xml={assets.search} style={styles.icon} />
-
-
+            <View style={[styles.container, {borderColor: theme.gray}]}>
+              <SvgXml xml={ isDarkMode?  assets.search: assets.searchlight} style={{...styles.icon}} />
 
               <TextInput
                 style={styles.input}
                 placeholder="Search..."
-                placeholderTextColor="#F0F0F0"
+                placeholderTextColor={theme.gray}
                 value={searchValue}
                 onChangeText={setSearchValue}
               />
@@ -373,13 +369,13 @@ const Wallet = () => {
               <Text
                 style={{
                   fontFamily: fonts.bold,
-                  color: isDarkMode ? '#000' : '#fff',
+                  color: theme.text,
                   fontSize: 16,
                 }}>
                 History
               </Text>
             </View>
-           
+
             <View style={{height: 50}}>
               <FlatList
                 data={['Hardcoded Item 1']}
@@ -392,25 +388,21 @@ const Wallet = () => {
                     }}>
                     <TouchableOpacity
                       style={{
-                        backgroundColor: isDarkMode ? 'grey' : 'grey',
+                        backgroundColor: theme.gray,
                         padding: 5,
                         borderRadius: 6,
                         margin: 6,
                       }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        Bitcoin
-                      </Text>
+                      <Text style={{color: theme.text}}>Bitcoin</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{
-                        backgroundColor: isDarkMode ? 'grey' : 'grey',
+                        backgroundColor: theme.gray,
                         padding: 5,
                         borderRadius: 6,
                         margin: 6,
                       }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        Ethereum
-                      </Text>
+                      <Text style={{color: theme.text}}>Ethereum</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -421,7 +413,7 @@ const Wallet = () => {
               <Text
                 style={{
                   fontFamily: fonts.bold,
-                  color: isDarkMode ? '#000' : '#fff',
+                  color: theme.text,
                   fontSize: 16,
                 }}>
                 Trending
@@ -439,36 +431,30 @@ const Wallet = () => {
                     }}>
                     <TouchableOpacity
                       style={{
-                        backgroundColor: isDarkMode ? 'grey' : 'grey',
+                        backgroundColor: theme.gray,
                         padding: 5,
                         borderRadius: 6,
                         margin: 6,
                       }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        Bitcoin
-                      </Text>
+                      <Text style={{color: theme.text}}>Bitcoin</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{
-                        backgroundColor: isDarkMode ? 'grey' : 'grey',
+                        backgroundColor: theme.gray,
                         padding: 5,
                         borderRadius: 6,
                         margin: 6,
                       }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        Ethereum
-                      </Text>
+                      <Text style={{color: theme.text}}>Ethereum</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{
-                        backgroundColor: isDarkMode ? 'grey' : 'grey',
+                        backgroundColor: theme.gray,
                         padding: 5,
                         borderRadius: 6,
                         margin: 6,
                       }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        TORN
-                      </Text>
+                      <Text style={{color: theme.text}}>Tron</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -482,18 +468,10 @@ const Wallet = () => {
                   <View style={styles.FlatListcontainer}>
                     <SvgXml xml={item.image} />
                     <View style={styles.textContainer}>
-                      <Text
-                        style={[
-                          styles.text,
-                          {color: isDarkMode ? '#000' : '#fff'},
-                        ]}>
+                      <Text style={[styles.text, {color: theme.text}]}>
                         {item.text}
                       </Text>
-                      <Text
-                        style={[
-                          styles.number,
-                          {color: isDarkMode ? '#000' : '#fff'},
-                        ]}>
+                      <Text style={[styles.number, {color: theme.text}]}>
                         {item.number}
                       </Text>
                     </View>
@@ -526,7 +504,7 @@ const Wallet = () => {
             {
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
-              backgroundColor: isDarkMode ? '#fff' : '#000',
+              backgroundColor: theme.background,
             },
           ]}>
           {/* Withdraw Modal Contant */}
@@ -559,7 +537,7 @@ const Wallet = () => {
             <Text
               style={{
                 fontFamily: fonts.bold,
-                color: isDarkMode ? '#000' : '#fff',
+                color: theme.text,
                 fontSize: 16,
               }}>
               History
@@ -567,119 +545,101 @@ const Wallet = () => {
           </View>
           {/* Input Api history here */}
           <View style={{height: 50}}>
-              <FlatList
-                data={['hardcoded']}
-                renderItem={({item}) => (
-                  <View
+            <FlatList
+              data={['hardcoded']}
+              renderItem={({item}) => (
+                <View
+                  style={{
+                    width: '100%',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <TouchableOpacity
                     style={{
-                      width: '100%',
-                      flexDirection: 'row',
-                      justifyContent: 'flex-start',
+                      backgroundColor: isDarkMode ? 'grey' : '#000',
+                      padding: 5,
+                      borderRadius: 6,
+                      margin: 6,
                     }}>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: isDarkMode ? 'grey' : '#000',
-                        padding: 5,
-                        borderRadius: 6,
-                        margin: 6,
-                      }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        Bitcoin
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: isDarkMode ? 'grey' : '#000',
-                        padding: 5,
-                        borderRadius: 6,
-                        margin: 6,
-                      }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        Ethereum
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: isDarkMode ? 'grey' : '#000',
-                        padding: 5,
-                        borderRadius: 6,
-                        margin: 6,
-                      }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        TORN
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </View>
+                    <Text style={{color: theme.text}}>Bitcoin</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: isDarkMode ? 'grey' : '#000',
+                      padding: 5,
+                      borderRadius: 6,
+                      margin: 6,
+                    }}>
+                    <Text style={{color: theme.text}}>Ethereum</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: isDarkMode ? 'grey' : '#000',
+                      padding: 5,
+                      borderRadius: 6,
+                      margin: 6,
+                    }}>
+                    <Text style={{color: theme.text}}>TORN</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </View>
           <View>
             <Text
               style={{
                 fontFamily: fonts.bold,
-                color: isDarkMode ? '#000' : '#fff',
+                color: theme.text,
                 fontSize: 16,
               }}>
               Trending
             </Text>
           </View>
           <View style={{height: 50}}>
-              <FlatList
-                data={['Hardcoded Item 1']}
-                renderItem={({item}) => (
-                  <View
+            <FlatList
+              data={['Hardcoded Item 1']}
+              renderItem={({item}) => (
+                <View
+                  style={{
+                    width: '100%',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <TouchableOpacity
                     style={{
-                      width: '100%',
-                      flexDirection: 'row',
-                      justifyContent: 'flex-start',
+                      backgroundColor: isDarkMode ? 'grey' : '#000',
+                      padding: 5,
+                      borderRadius: 6,
+                      margin: 6,
                     }}>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: isDarkMode ? 'grey' : '#000',
-                        padding: 5,
-                        borderRadius: 6,
-                        margin: 6,
-                      }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        Bitcoin
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: isDarkMode ? 'grey' : '#000',
-                        padding: 5,
-                        borderRadius: 6,
-                        margin: 6,
-                      }}>
-                      <Text style={{color: isDarkMode ? '#fff' : '#000'}}>
-                        Ethereum
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </View>
+                    <Text style={{color: theme.text}}>Bitcoin</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: isDarkMode ? 'grey' : '#000',
+                      padding: 5,
+                      borderRadius: 6,
+                      margin: 6,
+                    }}>
+                    <Text style={{color: theme.text}}>Ethereum</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </View>
           <FlatList
             data={data}
             renderItem={({item}) => (
               <TouchableOpacity onPress={() => handleItemPress(item)}>
                 <View style={styles.FlatListcontainer}>
-                  <SvgXml xml={item.image}/>
-                                    <View style={styles.textContainer}>
-                    <Text
-                      style={[
-                        styles.text,
-                        {color: isDarkMode ? '#000' : '#fff'},
-                      ]}>
+                  <SvgXml xml={item.image} />
+                  <View style={styles.textContainer}>
+                    <Text style={[styles.text, {color: theme.text}]}>
                       {item.text}
                     </Text>
-                    <Text
-                      style={[
-                        styles.number,
-                        {color: isDarkMode ? '#000' : '#fff'},
-                      ]}>
+                    <Text style={[styles.number, {color: theme.text}]}>
                       {item.number}
                     </Text>
                   </View>
@@ -763,7 +723,7 @@ const Wallet = () => {
             {
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
-              backgroundColor: isDarkMode ? '#000' : '#fff',
+              backgroundColor: theme.background,
             },
           ]}>
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -776,7 +736,7 @@ const Wallet = () => {
               }}>
               <Text
                 style={{
-                  color: isDarkMode ? '#fff' : '#000',
+                  color: theme.text,
                   fontFamily: fonts.bold,
                   fontSize: 22,
                 }}>
@@ -790,13 +750,13 @@ const Wallet = () => {
               style={[
                 styles.networkCards,
                 {
-                  shadowColor: isDarkMode ? '#fff' : '#000',
+                  shadowColor: theme.text,
                 },
               ]}
               onPress={toggleTronModal}>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.semibold,
                   fontSize: 16,
                 }}>
@@ -804,21 +764,21 @@ const Wallet = () => {
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 1 block confirmation/s
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 min. deposit 0.01 USDT
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 Est. arrival 2 mins
@@ -828,13 +788,13 @@ const Wallet = () => {
               style={[
                 styles.networkCards,
                 {
-                  shadowColor: isDarkMode ? '#fff' : '#000',
+                  shadowColor: theme.text,
                 },
               ]}
               onPress={toggleBNBModal}>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.semibold,
                   fontSize: 16,
                 }}>
@@ -842,21 +802,21 @@ const Wallet = () => {
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 15 block confirmation/s
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 min. deposit 0.01 USDT
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 Est. arrival 3 mins
@@ -866,13 +826,13 @@ const Wallet = () => {
               style={[
                 styles.networkCards,
                 {
-                  shadowColor: isDarkMode ? '#fff' : '#000',
+                  shadowColor: theme.text,
                 },
               ]}
               onPress={toggleEthereumModal}>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.semibold,
                   fontSize: 16,
                 }}>
@@ -880,21 +840,21 @@ const Wallet = () => {
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 6 block confirmation/s
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 min. deposit 0.00000001 USDT
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 Est. arrival 2min
@@ -904,13 +864,13 @@ const Wallet = () => {
               style={[
                 styles.networkCards,
                 {
-                  shadowColor: isDarkMode ? '#fff' : '#000',
+                  shadowColor: theme.text,
                 },
               ]}
               onPress={togglePolygonModal}>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.semibold,
                   fontSize: 16,
                 }}>
@@ -918,21 +878,21 @@ const Wallet = () => {
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 200 block confirmation/s
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 min. deposit 0.0000001 USDT
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 Est. arrival 4 mins
@@ -942,13 +902,13 @@ const Wallet = () => {
               style={[
                 styles.networkCards,
                 {
-                  shadowColor: isDarkMode ? '#fff' : '#000',
+                  shadowColor: theme.text,
                 },
               ]}
               onPress={toggleAVAXModal}>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.semibold,
                   fontSize: 16,
                 }}>
@@ -956,21 +916,21 @@ const Wallet = () => {
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 12 block confirmation/s
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 min. deposit 0.01 USDT
               </Text>
               <Text
                 style={{
-                  color: isDarkMode ? 'grey' : 'grey',
+                  color: theme.gray,
                   fontFamily: fonts.regular,
                 }}>
                 Est. arrival 2min
@@ -994,7 +954,7 @@ const Wallet = () => {
             {
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
-              backgroundColor: isDarkMode ? '#000' : '#fff',
+              backgroundColor: theme.background,
             },
           ]}>
           <View>
@@ -1011,7 +971,7 @@ const Wallet = () => {
               <View>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : '#000',
+                    color: theme.text,
                     fontFamily: fonts.semibold,
                     fontSize: 16,
                   }}>
@@ -1053,7 +1013,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Network</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                     }}>
@@ -1062,9 +1022,6 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>
                     Contract Information ***98747
                   </Text>
-                </View>
-                <View>
-                  <SvgXml xml={assets.back} />
                 </View>
               </View>
               <View
@@ -1078,7 +1035,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Deposit Address</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                       width: 200,
@@ -1127,7 +1084,7 @@ const Wallet = () => {
             {
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
-              backgroundColor: isDarkMode ? '#000' : '#fff',
+              backgroundColor: theme.text,
             },
           ]}>
           <View>
@@ -1144,7 +1101,7 @@ const Wallet = () => {
               <View>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : '#000',
+                    color: theme.text,
                     fontFamily: fonts.semibold,
                     fontSize: 16,
                   }}>
@@ -1186,7 +1143,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Network</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                     }}>
@@ -1211,7 +1168,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Deposit Address</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                       width: 200,
@@ -1262,7 +1219,7 @@ const Wallet = () => {
             {
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
-              backgroundColor: isDarkMode ? '#000' : '#fff',
+              backgroundColor: theme.text,
             },
           ]}>
           <View>
@@ -1279,7 +1236,7 @@ const Wallet = () => {
               <View>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : '#000',
+                    color: theme.text,
                     fontFamily: fonts.semibold,
                     fontSize: 16,
                   }}>
@@ -1321,7 +1278,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Network</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                     }}>
@@ -1346,7 +1303,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Deposit Address</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                       width: 200,
@@ -1396,7 +1353,7 @@ const Wallet = () => {
             {
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
-              backgroundColor: isDarkMode ? '#000' : '#fff',
+              backgroundColor: theme.text,
             },
           ]}>
           <View>
@@ -1413,7 +1370,7 @@ const Wallet = () => {
               <View>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : '#000',
+                    color: theme.text,
                     fontFamily: fonts.semibold,
                     fontSize: 16,
                   }}>
@@ -1455,7 +1412,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Network</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                     }}>
@@ -1480,7 +1437,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Deposit Address</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                       width: 200,
@@ -1530,7 +1487,7 @@ const Wallet = () => {
             {
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
-              backgroundColor: isDarkMode ? '#000' : '#fff',
+              backgroundColor: theme.text,
             },
           ]}>
           <View>
@@ -1547,7 +1504,7 @@ const Wallet = () => {
               <View>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : '#000',
+                    color: theme.text,
                     fontFamily: fonts.semibold,
                     fontSize: 16,
                   }}>
@@ -1589,7 +1546,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Network</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                     }}>
@@ -1614,7 +1571,7 @@ const Wallet = () => {
                   <Text style={{color: 'grey'}}>Deposit Address</Text>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: theme.text,
                       fontSize: 16,
                       fontFamily: fonts.regular,
                       width: 200,

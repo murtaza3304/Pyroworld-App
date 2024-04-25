@@ -16,18 +16,15 @@ import {cryptoData} from './data';
 import {BalanceCard} from '../../../components';
 import {fonts} from '../../../assets/fonts';
 import {useAuth} from '../../../hooks';
-import {useEffect} from 'react';
+import greetingTime from 'greeting-time';
 
 function Home({navigation}) {
   const theme = useTheme();
   const isDarkMode = useColorScheme() === 'dark';
   const numColumns = 2;
-  const {user, tokens} = useAuth();
-  useEffect(() => {
-    if (!user && !tokens) {
-      navigation.navigate('Login');
-    }
-  }, [user, tokens]);
+  const {user, tokens, isEmailVerified, loading} = useAuth();
+  console.log('dfsdfsdf', isEmailVerified);
+
 
   const styles = StyleSheet.create({
     view: {
@@ -81,6 +78,7 @@ function Home({navigation}) {
     <ScrollView
       showsVerticalScrollIndicator={false}
       alwaysBounceVertical={false}>
+
       <View style={styles.view}>
         {/* card */}
         <View style={styles.card}>
@@ -88,7 +86,9 @@ function Home({navigation}) {
             <SvgXml xml={assets.picture} />
             <View style={{marginHorizontal: 8}}>
               <View style={theme.flex.fullRow}>
-                <Text style={styles.text}>Hey, Good Morning...</Text>
+                <Text style={styles.text}>
+                  Hey, {greetingTime(new Date())}..
+                </Text>
                 <SvgXml xml={assets.hello} />
               </View>
               <Text
@@ -97,7 +97,7 @@ function Home({navigation}) {
                   fontSize: 18,
                   fontFamily: fonts.semibold,
                 }}>
-                Joshua!
+                {user?.name ? user.name : 'ADMIN'}!
               </Text>
             </View>
           </View>

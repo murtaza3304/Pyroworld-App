@@ -14,7 +14,7 @@ import {useTheme} from '../../assets/theme/Theme';
 import {fonts} from '../../assets/fonts';
 import {SvgXml} from 'react-native-svg';
 import {assets} from '../../assets/images/assets';
-import {register} from '../../api';
+import { register} from '../../api';
 import {signUpValidation} from '../../validations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -53,7 +53,7 @@ function SignUp({navigation}) {
       const {confirmPassword, ...rest} = formData;
       try {
         await register(rest);
-        navigation.navigate('App');
+        navigation.navigate('EmailAuthantication');
       } catch (error) {
         console.error('registration error:', error);
       }
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     width: 75,
-    textAlign:"center"
+    textAlign: 'center',
   },
   textStyle: {
     fontSize: 14,

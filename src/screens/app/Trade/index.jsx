@@ -6,7 +6,7 @@ import {
   useColorScheme,
   TextInput,
   ScrollView,
-  Modal
+  Modal,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useTheme} from '../../../assets/theme/Theme';
@@ -60,12 +60,10 @@ const Trade = () => {
     setSelectedOption('Limit');
     setIsModalVisible(!isModalVisible);
   };
-  const handleModalOption = (option) => {
+  const handleModalOption = option => {
     setSelectedOption(option);
-    setIsModalVisible(false); 
+    setIsModalVisible(false);
   };
-  
-  
 
   const styles = StyleSheet.create({
     container: {
@@ -166,7 +164,7 @@ const Trade = () => {
           <View
             style={[
               styles.contantContainer,
-              {backgroundColor: isDarkMode ? '#000' : '#fff'},
+              {backgroundColor: theme.background},
             ]}>
             <View
               style={{
@@ -180,17 +178,14 @@ const Trade = () => {
                   styles.BtnStyle,
                   {
                     backgroundColor:
-                      activeButton === 'OrderBook'
-                        ? theme.blue
-                        : isDarkMode
-                        ? '#202832'
-                        : '#F5F5F5',
+                      activeButton === 'OrderBook' ? theme.blue : theme.gray,
                   },
                 ]}
                 onPress={() => handleButtonPress('OrderBook')}>
                 <Text
                   style={{
-                    color: activeButton === 'OrderBook' ? '#fff' : '#000',
+                    color: '#fff',
+
                     fontFamily: fonts.regular,
                   }}>
                   OrderBook
@@ -201,17 +196,13 @@ const Trade = () => {
                   styles.BtnStyle,
                   {
                     backgroundColor:
-                      activeButton === 'Chart'
-                        ? theme.blue
-                        : isDarkMode
-                        ? '#202832'
-                        : '#F5F5F5',
+                      activeButton === 'Chart' ? theme.blue : theme.gray,
                   },
                 ]}
                 onPress={() => handleButtonPress('Chart')}>
                 <Text
                   style={{
-                    color: activeButton === 'Chart' ? '#fff' : '#000',
+                    color: '#fff',
                     fontFamily: fonts.regular,
                   }}>
                   Chart
@@ -222,17 +213,14 @@ const Trade = () => {
                   styles.BtnStyle,
                   {
                     backgroundColor:
-                      activeButton === 'Info'
-                        ? theme.blue
-                        : isDarkMode
-                        ? '#202832'
-                        : '#F5F5F5',
+                      activeButton === 'Info' ? theme.blue : theme.gray,
                   },
                 ]}
                 onPress={() => handleButtonPress('Info')}>
                 <Text
                   style={{
-                    color: activeButton === 'Info' ? '#fff' : '#000',
+                    color: '#fff',
+
                     fontFamily: fonts.regular,
                   }}>
                   Info
@@ -249,12 +237,7 @@ const Trade = () => {
               <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity
                   style={{
-                    backgroundColor:
-                      activeBtn === 'Buy'
-                        ? 'green'
-                        : isDarkMode
-                        ? '#202832'
-                        : '#F5F5F5',
+                    backgroundColor: activeBtn === 'Buy' ? 'green' : theme.gray,
                     paddingHorizontal: 20,
                     paddingVertical: 8,
                     borderTopLeftRadius: 8,
@@ -263,7 +246,7 @@ const Trade = () => {
                   onPress={() => handleBtn('Buy')}>
                   <Text
                     style={{
-                      color: activeBtn === 'Buy' ? '#fff' : '#000',
+                      color: '#fff',
                       fontFamily: fonts.regular,
                     }}>
                     Buy
@@ -271,12 +254,7 @@ const Trade = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
-                    backgroundColor:
-                      activeBtn === 'Sell'
-                        ? 'red'
-                        : isDarkMode
-                        ? '#202832'
-                        : '#F5F5F5',
+                    backgroundColor: activeBtn === 'Sell' ? 'red' : theme.gray,
                     paddingHorizontal: 20,
                     paddingVertical: 8,
                     borderTopRightRadius: 8,
@@ -285,7 +263,7 @@ const Trade = () => {
                   onPress={() => handleBtn('Sell')}>
                   <Text
                     style={{
-                      color: activeBtn === 'Sell' ? '#fff' : '#000',
+                      color: '#fff',
                       fontFamily: fonts.regular,
                     }}>
                     Sell
@@ -297,7 +275,7 @@ const Trade = () => {
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    backgroundColor: isDarkMode ? '#202832' : '#F5F5F5',
+                    backgroundColor: theme.gray,
                     paddingHorizontal: 10,
                     paddingVertical: 4,
                     borderRadius: 8,
@@ -305,7 +283,7 @@ const Trade = () => {
                   onPress={toggleModal}>
                   <Text
                     style={{
-                      color: isDarkMode ? '#fff' : '#000',
+                      color: '#fff',
                       fontFamily: fonts.regular,
                       marginRight: 10,
                     }}>
@@ -321,7 +299,7 @@ const Trade = () => {
             <View
               style={{
                 width: '100%',
-                backgroundColor: isDarkMode ? '#202832' : '#F5F5F5',
+                backgroundColor: theme.gray,
                 height: 40,
                 marginTop: 10,
                 borderRadius: 8,
@@ -341,7 +319,7 @@ const Trade = () => {
                 onPress={() => decrementPrice()}>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : 'grey',
+                    color: '#fff',
                     fontSize: 14,
                     fontFamily: fonts.bold,
                   }}>
@@ -354,15 +332,15 @@ const Trade = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   textAlign: 'center',
-                  color: isDarkMode ? '#fff' : '#000',
+                  color: '#fff',
                 }}
+                placeholderTextColor={'fff'}
                 placeholder="Price (USDT)"
                 value={price === 0 ? '' : price.toString()}
                 keyboardType="numeric"
                 onChangeText={text => {
                   setPrice(parseFloat(text) || 0);
                 }}
-                placeholderTextColor="grey"
               />
               <TouchableOpacity
                 style={{
@@ -376,7 +354,7 @@ const Trade = () => {
                 onPress={() => incrementPrice()}>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : 'grey',
+                    color: '#fff',
                     fontSize: 14,
                     fontFamily: fonts.bold,
                   }}>
@@ -387,7 +365,7 @@ const Trade = () => {
             <View
               style={{
                 width: '100%',
-                backgroundColor: isDarkMode ? '#202832' : '#F5F5F5',
+                backgroundColor: theme.gray,
                 height: 40,
                 marginTop: 10,
                 borderRadius: 8,
@@ -407,7 +385,8 @@ const Trade = () => {
                 onPress={() => decrementPriceBtc()}>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : 'grey',
+                    color: '#fff',
+
                     fontSize: 14,
                     fontFamily: fonts.bold,
                   }}>
@@ -420,7 +399,7 @@ const Trade = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   textAlign: 'center',
-                  color: isDarkMode ? '#fff' : '#000',
+                  color: "#fff",
                 }}
                 placeholder="Amount (BTC)"
                 value={priceBtc === 0 ? '' : priceBtc.toString()}
@@ -428,7 +407,7 @@ const Trade = () => {
                 onChangeText={text => {
                   setPriceBtc(parseFloat(text) || 0);
                 }}
-                placeholderTextColor="grey"
+                placeholderTextColor={'#fff'}
               />
               <TouchableOpacity
                 style={{
@@ -442,7 +421,7 @@ const Trade = () => {
                 onPress={() => incrementPriceBtc()}>
                 <Text
                   style={{
-                    color: isDarkMode ? '#fff' : 'grey',
+                    color: '#fff',
                     fontSize: 14,
                     fontFamily: fonts.bold,
                   }}>
@@ -556,37 +535,57 @@ const Trade = () => {
           </View>
         </ScrollView>
       </View>
-    <Modal
-  animationType="slide"
-  transparent={true}
-  visible={isModalVisible}
-  onRequestClose={toggleModal}
->
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
-    <View
-      style={{
-        backgroundColor: isDarkMode ? '#000' : '#fff',
-        padding: 20,
-        borderRadius: 10,
-      }}
-    >
-      <TouchableOpacity onPress={() => handleModalOption('Market')}>
-        <Text style={{ color: isDarkMode ? '#fff' : '#000', fontFamily: fonts.regular, textAlign: 'center' }}>Market</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleModalOption('Limit')}>
-        <Text style={{ color: isDarkMode ? '#fff' : '#000', fontFamily: fonts.regular, textAlign: 'center' }}>Limit</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleModalOption('Stop/Loss')}>
-        <Text style={{ color: isDarkMode ? '#fff' : '#000', fontFamily: fonts.regular, textAlign: 'center' }}>Stop/Loss</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={toggleModal} style={{ position: 'absolute', right: 5, top: 5 }}>
-        <SvgXml xml={assets.back} />
-      </TouchableOpacity>
-    </View>
-  </View>
-</Modal>
-
-
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={toggleModal}>
+        <View
+          style={{flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
+          <View
+            style={{
+              backgroundColor: isDarkMode ? '#000' : '#fff',
+              padding: 20,
+              borderRadius: 10,
+            }}>
+            <TouchableOpacity onPress={() => handleModalOption('Market')}>
+              <Text
+                style={{
+                  color: isDarkMode ? '#fff' : '#000',
+                  fontFamily: fonts.regular,
+                  textAlign: 'center',
+                }}>
+                Market
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleModalOption('Limit')}>
+              <Text
+                style={{
+                  color: isDarkMode ? '#fff' : '#000',
+                  fontFamily: fonts.regular,
+                  textAlign: 'center',
+                }}>
+                Limit
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleModalOption('Stop/Loss')}>
+              <Text
+                style={{
+                  color: isDarkMode ? '#fff' : '#000',
+                  fontFamily: fonts.regular,
+                  textAlign: 'center',
+                }}>
+                Stop/Loss
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={toggleModal}
+              style={{position: 'absolute', right: 5, top: 5}}>
+              <SvgXml xml={assets.back} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };

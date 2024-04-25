@@ -54,18 +54,22 @@ function Login({navigation}) {
     } else {
       try {
         const response = await signin(formData);
-        setFormData({
-          email: '',
-          password: '',
-        });
-        navigation.navigate('App');
+
+        if (response) {
+          setFormData({
+            email: '',
+            password: '',
+          });
+          navigation.navigate('AppStack');
+        }
       } catch (error) {
-        console.log(error);
+        setErrors({
+          email: 'Invalid Credentials',
+          password: 'Invalid Credentials',
+        });
       }
     }
   };
-
-  console.log(errors, 'eeeee');
 
   const handleChange = (name, value) => {
     setFormData(prev => ({
@@ -233,8 +237,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginRight: 6,
     fontFamily: fonts.regular,
-    textAlign:"center"
-
+    textAlign: 'center',
   },
   errorText: {
     color: 'red',

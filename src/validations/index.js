@@ -70,7 +70,7 @@ export const resetPasswordValidation = data => {
     errors.password =
       'Password must contain at least one letter, one number, one special character';
   }
-  if (data.password === data.confirmPassword) {
+  if (data.password !== data.confirmPassword) {
     errors.confirmPassword = 'Passwords do not match.';
   }
   console.log("errrorrrrrrs",errors)

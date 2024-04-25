@@ -7,25 +7,40 @@ import EmailAuthantication from '../screens/auth/EmailAuthantication';
 import PasswordReset from '../screens/auth/PasswordReset';
 import ResetAuthCode from '../screens/auth/ResetAuthCode';
 import NewPassword from '../screens/auth/NewPassword';
+import {useAuth} from '../hooks';
+
+import {useEffect} from 'react';
+import AppStack from './AppStack';
+import Loading from '../screens/app/Profile/Loading';
 
 const Stack = createNativeStackNavigator();
 
 function Authstack() {
-  return (
-    <Stack.Navigator screenOptions={{headerShown:false}}>
-      {/* <Stack.Screen name="App" component={BottomTab}/> */}
-      {/* <Stack.Screen name="App" component={BottomTab}/> */}
+  const {user, tokens, loading} = useAuth();
+  useEffect(() => {}, [user, tokens, loading]);
+
+  return loading ? (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Loading" component={Loading} />
+    </Stack.Navigator>
+  ) : !user && !tokens ? (
+    <Stack.Navigator
+      initialRouteName={'Login'}
+      screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="App" component={BottomTab} />
-      <Stack.Screen name='setting' component={setting} />
-      <Stack.Screen name='EmailAuthantication' component={EmailAuthantication} />
-      <Stack.Screen name='PasswordReset' component={PasswordReset} />
-      <Stack.Screen name='ResetAuthCode' component={ResetAuthCode} />
-      <Stack.Screen name='NewPassword' component={NewPassword} />
-      
-
+      {/* <Stack.Screen name="setting" component={setting} /> */}
+      <Stack.Screen
+        name="EmailAuthantication"
+        component={EmailAuthantication}
+      />
+      <Stack.Screen name="PasswordReset" component={PasswordReset} />
+      <Stack.Screen name="ResetAuthCode" component={ResetAuthCode} />
+      <Stack.Screen name="NewPassword" component={NewPassword} />
+      <Stack.Screen name="AppStack" component={AppStack} />
     </Stack.Navigator>
+  ) : (
+    <AppStack />
   );
 }
 

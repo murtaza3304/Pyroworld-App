@@ -66,7 +66,7 @@ function PasswordReset({navigation}) {
           source={logo}
           style={{width: 100, height: 100, marginBottom: 6}}
         />
-        <View style={{width: 160, justifyContent: 'center'}}>
+        <View style={{width: 180, justifyContent: 'center'}}>
           <Text
             style={[
               styles.title,
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center'
   },
   input: {
     width: '100%',
