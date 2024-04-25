@@ -1,6 +1,6 @@
 export const cryptoData = [
   {
-    name: 'Bitcoin',
+    name: 'Bitcoin Cash',
     symbol: 'BTC',
     price: 50000.43,
     increasePercentage: +5.3,
@@ -113,7 +113,7 @@ export const cryptoData = [
     ],
   },
   {
-    name: 'Bitcoin Cash',
+    name: 'Bitcoin',
     symbol: 'BCH',
     price: 600.45,
     increasePercentage: -4.2,

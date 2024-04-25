@@ -17,10 +17,13 @@ export default function Chart({width, height, nature, layout}) {
         ...theme.flex.row,
         width: width,
         height: height,
-        marginBottom: 0,
-        marginRight:20
+        marginRight:20,
+        alignItems:'center',
+        justifyContent:'center',
+        padding: 10
       }}>
       <LineChart
+     
         data={{
           datasets: [
             {
@@ -62,6 +65,7 @@ export default function Chart({width, height, nature, layout}) {
         style={{
           borderRadius: 16,
           marginRight: 50,
+          paddingBottom: 5
         }}
       />
     </View>

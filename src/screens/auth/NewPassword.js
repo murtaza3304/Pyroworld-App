@@ -14,24 +14,20 @@ import {useTheme} from '../../assets/theme/Theme';
 import {fonts} from '../../assets/fonts';
 import {SvgXml} from 'react-native-svg';
 import {assets} from '../../assets/images/assets';
-import { register} from '../../api';
+import {register} from '../../api';
 import {signUpValidation} from '../../validations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function SignUp({navigation}) {
+function NewPassword({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
   const [secureMode, setSecureMode] = useState(true);
-  const [confirmPasswordSecure, setConfirmPasswordSecure] = useState(true);
+  const [confirmPasswordSecure, setConfirmPasswordSecure] = useState(true)
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
     password: '',
     confirmPassword: '',
   });
   const [errors, setErrors] = useState({
-    name: '',
-    email: '',
     password: '',
     confirmPassword: '',
   });
@@ -44,41 +40,19 @@ function SignUp({navigation}) {
     setConfirmPasswordSecure(!confirmPasswordSecure);
   };
 
+
   const handleSignUp = async () => {
-    const error = signUpValidation(formData);
-    if (Object.keys(error).length > 0) {
-      setErrors(error);
-      return;
-    } else {
-      const {confirmPassword, ...rest} = formData;
-      try {
-        await register(rest);
-        navigation.navigate('EmailAuthantication');
-      } catch (error) {
-        console.error('registration error:', error);
-      }
-    }
+    navigation.navigate('Login')
   };
-
-  const handleChange = (name, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-    setErrors(prev => ({
-      ...prev,
-      [name]: '',
-    }));
-  };
-
+  
   return (
     <View
       style={[
         styles.container,
         {backgroundColor: isDarkMode ? '#000' : '#fff', paddingTop: 50},
       ]}>
-      <Image source={logo} style={{width: 100, height: 100, marginBottom: 6}} />
-      <View style={{width: 96, justifyContent: 'center'}}>
+      <Image source={logo} style={{width: 100, height: 100, marginBottom: 6, }} />
+      <View style={{width: 220, justifyContent: 'center'}}>
         <Text
           style={[
             styles.title,
@@ -86,43 +60,12 @@ function SignUp({navigation}) {
               color: isDarkMode ? '#fff' : '#000',
             },
           ]}>
-          SIGN UP
+          RESET PASSWORD
         </Text>
       </View>
       <ScrollView
         style={{width: '100%', height: '100%'}}
         showsVerticalScrollIndicator={false}>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: isDarkMode ? '#333' : '#ddd',
-              color: isDarkMode ? '#fff' : '#000',
-            },
-          ]}
-          placeholder="Full Name"
-          placeholderTextColor={isDarkMode ? '#888' : '#666'}
-          value={formData.name}
-          onChangeText={text => handleChange('name', text)}
-        />
-        <Text style={styles.errorText}>{errors?.name}</Text>
-
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: isDarkMode ? '#333' : '#ddd',
-              color: isDarkMode ? '#fff' : '#000',
-            },
-          ]}
-          placeholder="Email"
-          placeholderTextColor={isDarkMode ? '#888' : '#666'}
-          keyboardType="email-address"
-          value={formData.email}
-          name="email"
-          onChangeText={text => handleChange('email', text)}
-        />
-        {<Text style={styles.errorText}>{errors?.email}</Text>}
 
         <View style={{width: '100%'}}>
           <TextInput
@@ -146,7 +89,6 @@ function SignUp({navigation}) {
               justifyContent: 'center',
               right: 10,
               top: 15,
-              // backgroundColor:'green'
             }}
             onPress={TogglePassword}>
             <SvgXml xml={secureMode ? assets.closeEye : assets.openEye} />
@@ -188,7 +130,7 @@ function SignUp({navigation}) {
         <Text style={styles.errorText}>{errors?.confirmPassword}</Text>
 
         <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-          <Text style={styles.signUpButtonText}>Sign Up</Text>
+          <Text style={styles.signUpButtonText}>Reset Password</Text>
         </TouchableOpacity>
         <View
           style={{
@@ -204,7 +146,7 @@ function SignUp({navigation}) {
               marginRight: 6,
               fontFamily: fonts.regular,
             }}>
-            Already have an account
+            Back to
           </Text>
 
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
@@ -233,8 +175,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 15,
-    // marginBottom: 10,
-    // marginTop: 20,
+    
   },
   signUpButton: {
     width: '100%',
@@ -249,8 +190,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-    width: 75,
-    textAlign: 'center',
+    width: 130,
   },
   textStyle: {
     fontSize: 14,
@@ -265,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default NewPassword;
