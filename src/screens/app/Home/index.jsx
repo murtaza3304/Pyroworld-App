@@ -23,7 +23,7 @@ function Home({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
   const numColumns = 2;
   const {user, tokens, isEmailVerified, loading} = useAuth();
-  console.log('dfsdfsdf', isEmailVerified);
+ 
 
 
   const styles = StyleSheet.create({
@@ -44,7 +44,6 @@ function Home({navigation}) {
       color: theme.text,
       fontSize: 10,
       ...theme.flex.row,
-      // backgroundColor: 'red'
       fontFamily: fonts.regular,
     },
     picture: {

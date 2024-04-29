@@ -334,7 +334,7 @@ const Trade = () => {
                   textAlign: 'center',
                   color: '#fff',
                 }}
-                placeholderTextColor={'fff'}
+                placeholderTextColor={'#fff'}
                 placeholder="Price (USDT)"
                 value={price === 0 ? '' : price.toString()}
                 keyboardType="numeric"
