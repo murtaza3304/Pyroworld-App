@@ -6,7 +6,6 @@ import setting from '../screens/app/Profile/setting';
 import EmailAuthantication from '../screens/auth/EmailAuthantication';
 import PasswordReset from '../screens/auth/PasswordReset';
 import ResetAuthCode from '../screens/auth/ResetAuthCode';
-import NewPassword from '../screens/auth/NewPassword';
 import {useAuth} from '../hooks';
 
 import {useEffect} from 'react';
@@ -36,7 +35,6 @@ function Authstack() {
       />
       <Stack.Screen name="PasswordReset" component={PasswordReset} />
       <Stack.Screen name="ResetAuthCode" component={ResetAuthCode} />
-      <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="AppStack" component={AppStack} />
     </Stack.Navigator>
   ) : (

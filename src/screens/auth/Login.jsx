@@ -48,13 +48,16 @@ function Login({navigation}) {
 
   const handleLogin = async () => {
     const error = signinValidation(formData);
+    setLoading(true)
     if (Object.keys(error).length > 0) {
       setErrors(error);
+      setLoading(false)
       return;
     } else {
       try {
         const response = await signin(formData);
 
+        setLoading(true)
         if (response) {
           setFormData({
             email: '',
@@ -67,6 +70,7 @@ function Login({navigation}) {
           email: 'Invalid Credentials',
           password: 'Invalid Credentials',
         });
+        setLoading(false)
       }
     }
   };

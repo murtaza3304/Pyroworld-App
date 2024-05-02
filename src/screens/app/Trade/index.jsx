@@ -17,6 +17,8 @@ import CandleChart from '../../../components/CandleChart';
 import {fonts} from '../../../assets/fonts';
 import TradeDetail from '../../../components/TradeDetail';
 import {Dropdown} from 'react-native-element-dropdown';
+import BuyModal from './BuyModal';
+import SellModal from './SellModal';
 
 const Trade = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,26 +30,10 @@ const Trade = () => {
   const [showCandleChart, setShowCandleChart] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Limit');
+  const [isBuyModalVisible, setBuyModalVisible] = useState(false);
+  const [isSellModalVisible, setSellModalVisible] = useState(false);
 
-  const handleBtn = btnName => {
-    setActiveBtn(btnName);
-  };
-  const incrementPrice = () => {
-    setPrice(price + 1);
-  };
-  const decrementPrice = () => {
-    if (price > 0) {
-      setPrice(price - 1);
-    }
-  };
-  const incrementPriceBtc = () => {
-    setPriceBtc(priceBtc + 1);
-  };
-  const decrementPriceBtc = () => {
-    if (priceBtc > 0) {
-      setPriceBtc(priceBtc - 1);
-    }
-  };
+
   const handleButtonPress = buttonName => {
     setActiveButton(buttonName);
     if (buttonName === 'OrderBook') {
@@ -63,6 +49,13 @@ const Trade = () => {
   const handleModalOption = option => {
     setSelectedOption(option);
     setIsModalVisible(false);
+  };
+  const toggleBuyButton = () => {
+    setBuyModalVisible(!isBuyModalVisible);
+  };
+
+  const toggleSellButton = () => {
+    setSellModalVisible(!isSellModalVisible);
   };
 
   const styles = StyleSheet.create({
@@ -115,6 +108,51 @@ const Trade = () => {
       justifyContent: 'center',
       fontFamily: fonts.regular,
     },
+    button: {
+      backgroundColor: 'green',
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '20%',
+      borderRadius: 12,
+      marginTop: 20,
+      marginLeft: 10,
+    },
+    buttonText: {
+      color: 'white',
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalContent: {
+      paddingHorizontal: 20,
+      borderTopEndRadius: 12,
+      borderTopStartRadius: 12,
+      alignItems: 'center',
+      width: '100%',
+      position: 'absolute',
+      bottom: 0,
+      height: 400,
+    },
+    modalText: {
+      fontSize: 18,
+      marginBottom: 20,
+    },
+    closeButton: {
+      padding: 10,
+      borderRadius: 8,
+      width: '100%',
+      alignItems: 'flex-end',
+      position: 'absolute',
+      right: 0,
+      top: 0,
+    },
+    closeButtonText: {
+      color: 'white',
+      fontWeight: 'bold',
+    },
   });
   return (
     <>
@@ -159,8 +197,11 @@ const Trade = () => {
           </View>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{width: '100%'}}>
           {showCandleChart ? <CandleChart /> : <TradeDetail />}
+
           <View
             style={[
               styles.contantContainer,
@@ -227,314 +268,55 @@ const Trade = () => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginTop: 10,
-              }}>
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: activeBtn === 'Buy' ? 'green' : theme.gray,
-                    paddingHorizontal: 20,
-                    paddingVertical: 8,
-                    borderTopLeftRadius: 8,
-                    borderBottomLeftRadius: 8,
-                  }}
-                  onPress={() => handleBtn('Buy')}>
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontFamily: fonts.regular,
-                    }}>
-                    Buy
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: activeBtn === 'Sell' ? 'red' : theme.gray,
-                    paddingHorizontal: 20,
-                    paddingVertical: 8,
-                    borderTopRightRadius: 8,
-                    borderBottomRightRadius: 8,
-                  }}
-                  onPress={() => handleBtn('Sell')}>
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontFamily: fonts.regular,
-                    }}>
-                    Sell
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <TouchableOpacity
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    backgroundColor: theme.gray,
-                    paddingHorizontal: 10,
-                    paddingVertical: 4,
-                    borderRadius: 8,
-                  }}
-                  onPress={toggleModal}>
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontFamily: fonts.regular,
-                      marginRight: 10,
-                    }}>
-                    Limit
-                  </Text>
-                  <SvgXml
-                    xml={assets.limit}
-                    fill={isDarkMode ? '#fff' : '#000'}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                backgroundColor: theme.gray,
-                height: 40,
-                marginTop: 10,
-                borderRadius: 8,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                style={{
-                  width: '15%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 30,
-                  borderRightColor: 'grey',
-                  borderRightWidth: 1,
-                }}
-                onPress={() => decrementPrice()}>
-                <Text
-                  style={{
-                    color: '#fff',
-                    fontSize: 14,
-                    fontFamily: fonts.bold,
-                  }}>
-                  -
-                </Text>
-              </TouchableOpacity>
-              <TextInput
-                style={{
-                  width: '70%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  color: '#fff',
-                }}
-                placeholderTextColor={'#fff'}
-                placeholder="Price (USDT)"
-                value={price === 0 ? '' : price.toString()}
-                keyboardType="numeric"
-                onChangeText={text => {
-                  setPrice(parseFloat(text) || 0);
-                }}
-              />
-              <TouchableOpacity
-                style={{
-                  width: '15%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 30,
-                  borderLeftWidth: 1,
-                  borderLeftColor: 'grey',
-                }}
-                onPress={() => incrementPrice()}>
-                <Text
-                  style={{
-                    color: '#fff',
-                    fontSize: 14,
-                    fontFamily: fonts.bold,
-                  }}>
-                  +
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                backgroundColor: theme.gray,
-                height: 40,
-                marginTop: 10,
-                borderRadius: 8,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                style={{
-                  width: '15%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 30,
-                  borderRightColor: 'grey',
-                  borderRightWidth: 1,
-                }}
-                onPress={() => decrementPriceBtc()}>
-                <Text
-                  style={{
-                    color: '#fff',
-
-                    fontSize: 14,
-                    fontFamily: fonts.bold,
-                  }}>
-                  -
-                </Text>
-              </TouchableOpacity>
-              <TextInput
-                style={{
-                  width: '70%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  color: "#fff",
-                }}
-                placeholder="Amount (BTC)"
-                value={priceBtc === 0 ? '' : priceBtc.toString()}
-                keyboardType="numeric"
-                onChangeText={text => {
-                  setPriceBtc(parseFloat(text) || 0);
-                }}
-                placeholderTextColor={'#fff'}
-              />
-              <TouchableOpacity
-                style={{
-                  width: '15%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 30,
-                  borderLeftWidth: 1,
-                  borderLeftColor: 'grey',
-                }}
-                onPress={() => incrementPriceBtc()}>
-                <Text
-                  style={{
-                    color: '#fff',
-                    fontSize: 14,
-                    fontFamily: fonts.bold,
-                  }}>
-                  +
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                marginTop: 10,
-              }}>
-              <TouchableOpacity
-                style={[styles.percentage, {backgroundColor: '#6C757D'}]}>
-                <Text
-                  style={[
-                    {color: isDarkMode ? '#fff' : '#fff'},
-                    styles.PercentageText,
-                  ]}>
-                  25%
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.percentage, {backgroundColor: '#6C757D'}]}>
-                <Text
-                  style={[
-                    {color: isDarkMode ? '#fff' : '#fff'},
-                    styles.PercentageText,
-                  ]}>
-                  50%
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.percentage, {backgroundColor: '#6C757D'}]}>
-                <Text
-                  style={[
-                    {color: isDarkMode ? '#fff' : '#fff'},
-                    styles.PercentageText,
-                  ]}>
-                  75%
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.percentage, {backgroundColor: '#6C757D'}]}>
-                <Text
-                  style={[
-                    {color: isDarkMode ? '#fff' : '#fff'},
-                    styles.PercentageText,
-                  ]}>
-                  100%
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 10,
-              }}>
-              <View style={{}}>
-                <Text
-                  style={{
-                    color: isDarkMode ? '#fff' : '#000',
-                    fontFamily: fonts.semibold,
-                  }}>
-                  Total
-                </Text>
-                <Text style={{color: theme.blue, fontFamily: fonts.semibold}}>
-                  Available
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    color: isDarkMode ? '#fff' : '#000',
-                    fontFamily: fonts.semibold,
-                  }}>
-                  0.0 BTC
-                </Text>
-                <Text style={{color: theme.blue, fontFamily: fonts.semibold}}>
-                  0.0 BTC
-                </Text>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              style={{
-                width: '100%',
-                backgroundColor:
-                  activeBtn === 'Buy'
-                    ? 'green'
-                    : activeBtn === 'Sell'
-                    ? 'red'
-                    : isDarkMode
-                    ? '#202832'
-                    : '#F5F5F5',
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingVertical: 12,
-                borderRadius: 8,
-                marginTop: 10,
-              }}
-              onPress={() => handleBtn(activeBtn === 'Buy' ? 'Sell' : 'Buy')}>
-              <Text style={{color: '#fff'}}>{activeBtn}</Text>
-            </TouchableOpacity>
           </View>
         </ScrollView>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            height: 100,
+            justifyContent: 'flex-end',
+            paddingTop: 30,
+            paddingHorizontal: 20
+          }}>
+          <TouchableOpacity
+            onPress={() => toggleBuyButton()}
+            style={{
+              backgroundColor: 'green',
+              height: 40,
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '30%',
+              borderRadius: 12,
+              marginTop: 20,
+              marginRight: 2,
+              
+            }}>
+            <Text style={{color: theme.text}}>Buy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => toggleSellButton()}
+            style={{
+              backgroundColor: 'red',
+              height: 40,
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '30%',
+              borderRadius: 12,
+              marginTop: 20,
+              marginLeft: 2
+            }}>
+            <Text style={{color: theme.text}}>Sell</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+
+      
+      <BuyModal isVisible={isBuyModalVisible} onClose={toggleBuyButton} />
+      <SellModal isVisible={isSellModalVisible} onClose={toggleSellButton} />
+
+      {/* Limit Modal */}
+
       <Modal
         animationType="slide"
         transparent={true}

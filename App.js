@@ -24,6 +24,7 @@ function App() {
       />
       {splashVisible ? (
         <SplashScreen />
+        
       ) : (
         <View style={{ flex: 1, marginTop: Platform.OS === 'ios' ? 30 : 0 }}>
           <Authstack />

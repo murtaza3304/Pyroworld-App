@@ -66,7 +66,7 @@ function PasswordReset({navigation}) {
           source={logo}
           style={{width: 100, height: 100, marginBottom: 6}}
         />
-        <View style={{width: 180, justifyContent: 'center'}}>
+        <View style={{width: 210, justifyContent: 'center', textAlign: 'center'}}>
           <Text
             style={[
               styles.title,
@@ -74,7 +74,7 @@ function PasswordReset({navigation}) {
                 color: isDarkMode ? '#fff' : '#000',
               },
             ]}>
-            Foget Password
+            Forget Password
           </Text>
         </View>
         <ScrollView

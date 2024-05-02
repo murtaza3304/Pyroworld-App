@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, Animated } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { fonts } from '../../assets/fonts'
 import { useTheme } from '@react-navigation/native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
 
 const SplashScreen = () => {
     const theme = useTheme();
@@ -13,6 +13,34 @@ const SplashScreen = () => {
     const delayBeforeStart = 0;
 
     const [typedText, setTypedText] = useState('');
+
+
+const authenticateWithFingerprint = async () => {
+  const rnBiometrics = new ReactNativeBiometrics();
+
+  try {
+    const { biometryType } = await rnBiometrics.isSensorAvailable();
+
+    if (biometryType === BiometryTypes.Biometrics) {
+      const result = await rnBiometrics.simplePrompt({
+        promptMessage: 'Scan your fingerprint to proceed',
+        cancelButtonText: 'Cancel',
+      });
+
+      if (result.success) {
+        console.log('Fingerprint authentication successful');
+      } else {
+        console.log('Fingerprint authentication failed or canceled');
+      }
+    } else {
+      console.log('Biometric authentication is not available.');
+    }
+  } catch (error) {
+    console.error('An error occurred during biometric authentication:', error);
+  }
+};
+
+authenticateWithFingerprint();
 
     useEffect(() => {
         setTimeout(startTypingAnimation, delayBeforeStart);
@@ -50,6 +78,10 @@ const SplashScreen = () => {
 export default SplashScreen
 
 const styles = StyleSheet.create({})
+
+
+
+
 
 
 

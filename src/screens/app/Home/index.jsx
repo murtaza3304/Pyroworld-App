@@ -24,8 +24,6 @@ function Home({navigation}) {
   const numColumns = 2;
   const {user, tokens, isEmailVerified, loading} = useAuth();
  
-
-
   const styles = StyleSheet.create({
     view: {
       ...theme.flex.fullColumn,
@@ -77,7 +75,6 @@ function Home({navigation}) {
     <ScrollView
       showsVerticalScrollIndicator={false}
       alwaysBounceVertical={false}>
-
       <View style={styles.view}>
         {/* card */}
         <View style={styles.card}>
