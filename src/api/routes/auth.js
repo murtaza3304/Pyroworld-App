@@ -32,7 +32,6 @@ export const forgetPassword = async body => {
   try {
     const res = await axios.post(`${Url}/auth/forgot-password`, body);
     return res.data;
-    // return res.data;
   } catch (error) {
     return error.message;
   }

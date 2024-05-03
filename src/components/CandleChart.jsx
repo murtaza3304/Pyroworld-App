@@ -8,6 +8,7 @@ import {
 } from 'react-native-gesture-handler';
 import {AreaChart, XAxis, YAxis, Grid} from 'react-native-svg-charts';
 import * as shape from 'd3-shape';
+import { BaseNavigationContainer } from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
@@ -15,51 +16,36 @@ const CandleChart = () => {
   const randomInRange = (min, max) =>
     Math.floor(Math.random() * (max - min + 1) + min);
 
-  // Generate random data
+ 
   const generateRandomData = () => {
     const randomData = [];
-    for (let i = 0; i < 10; i++) {
-      // Generate random values within wider ranges
-      const open = randomInRange(10, 100); // wider range
-      const high = randomInRange(open, 100); // wider range
-      const low = randomInRange(0, open); // wider range
+    for (let i = 0; i < 50; i++) {
+     
+      const open = randomInRange(10, 100); 
+      const high = randomInRange(open, 100); 
+      const low = randomInRange(0, open); 
       const close = randomInRange(low, high);
       randomData.push({value: [open, high, low, close]});
     }
     return randomData;
   };
-  console.log(generateRandomData());
 
-  const [data, setData] = useState([
-    {value: [18, 94, 17, 89]},
-    {value: [40, 47, 23, 39]},
-    {value: [21, 72, 20, 71]},
-    {value: [58, 65, 22, 24]},
-    {value: [34, 75, 18, 41]},
-    {value: [66, 78, 50, 68]},
-    {value: [65, 78, 5, 22]},
-    {value: [82, 96, 21, 50]},
-    {value: [74, 86, 55, 58]},
-    {value: [45, 91, 45, 91]},
-  ]);
+  const data = generateRandomData()
   const [scale, setScale] = useState(1);
-  const [chartHeight, setChartHeight] = useState(200); // Initial height
-  const [selectedCandle, setSelectedCandle] = useState(); // Initial height
+  const [chartHeight, setChartHeight] = useState(200);
+  const [selectedCandle, setSelectedCandle] = useState(); 
 
   useEffect(() => {
     const calculateChartHeight = () => {
-      // Find the highest and lowest points on the chart
       const lowestPrice = Math.min(...data.map(item => item.value[2]));
       const highestPrice = Math.max(...data.map(item => item.value[1]));
 
-      // Calculate the height based on the price range
       const priceRange = highestPrice - lowestPrice;
-      const minHeight = 200; // Minimum height for the chart
-      const maxHeight = 200; // Maximum height for the chart
+      const minHeight = 200; 
+      const maxHeight = 300; 
       const newHeight =
-        minHeight + (maxHeight - minHeight) * (priceRange / 300); // Adjust 300 according to your preference
+        minHeight + (maxHeight - minHeight) * (priceRange / 300); 
 
-      // Update the chart height
       setChartHeight(newHeight);
     };
 
@@ -74,8 +60,8 @@ const CandleChart = () => {
   };
 
   const Candlestick = ({data, onCandlePress}) => {
-    const candleWidth = 10 * scale; // Adjust width based on scale
-    const spaceBetweenCandles = 15 * scale; // Adjust spacing based on scale
+    const candleWidth = 10 * scale; 
+    const spaceBetweenCandles = 15 * scale; 
 
     const handleCandlePress = index => {
       if (onCandlePress) {
@@ -83,12 +69,12 @@ const CandleChart = () => {
       }
     };
 
-    const chartWidth = data.length * spaceBetweenCandles; // Calculate total chart width
+    const chartWidth = data.length * spaceBetweenCandles; 
 
     return (
       <ScrollView
         horizontal
-        onScrollEndDrag={() => onCandlePress(null)} // Reset selected candle when the user finishes dragging
+        onScrollEndDrag={() => onCandlePress(null)} 
       >
         <Svg height={chartHeight} width={chartWidth}>
           {data.map((item, index) => {
@@ -144,18 +130,19 @@ const CandleChart = () => {
     <GestureHandlerRootView>
       <PinchGestureHandler onGestureEvent={handlePinch}>
         <View style={{flex: 0, height: chartHeight}}>
-          <View style={{height: chartHeight, flexDirection: 'row'}}>
-            <YAxis
-              data={data.flatMap(item => item.value)} // Flatten the data array to get all values
-              contentInset={{top: 20, bottom: 20}}
-              svg={{fontSize: 10, fill: 'grey'}}
-              numberOfTicks={5}
-              formatLabel={value => `${value}`}
-            />
-            <View style={{flex: 1, marginLeft: 10}}>
-              <Candlestick data={data} onCandlePress={setSelectedCandle} />
-            </View>
-          </View>
+        <View style={{ flexDirection: 'row', flex: 1, paddingRight: 10 }}>
+  <View style={{ flex: 1, marginRight: 10 }}>
+    <Candlestick data={data} onCandlePress={setSelectedCandle} />
+  </View>
+  <YAxis
+    data={data.flatMap(item => item.value)} 
+    contentInset={{ top: 20, bottom: 20, }}
+    svg={{ fontSize: 10, fill: 'grey', dy: 5}}
+    numberOfTicks={5}
+    formatLabel={value => `${value}`}
+  />
+</View>
+
           <View
             style={{
               height: '40%',
@@ -164,8 +151,8 @@ const CandleChart = () => {
             }}>
             <XAxis
               style={{marginHorizontal: -10}}
-              data={data.map((_, index) => index)} // Map indices for X-axis
-              formatLabel={index => data[index].value[0]} // Use the open price as label
+              data={data.map((_, index) => index)}
+              formatLabel={index => data[index].value[0]} 
               contentInset={{left: 10, right: 10}}
               svg={{fontSize: 10, fill: 'black'}}
             />

@@ -11,9 +11,9 @@ function App() {
   const [splashVisible, setSplashVisible] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setSplashVisible(false);
-    }, 3000);
+    // setTimeout(() => {
+    //   setSplashVisible(false);
+    // }, 3000);
   }, []);
 
   return (

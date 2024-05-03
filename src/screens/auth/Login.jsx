@@ -16,6 +16,7 @@ import {SvgXml} from 'react-native-svg';
 import {assets} from '../../assets/images/assets';
 import {signin} from '../../api';
 import {signinValidation} from '../../validations';
+import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
 
 function Login({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
@@ -88,6 +89,34 @@ function Login({navigation}) {
   const forgetPassword = () => {
     navigation.navigate('PasswordReset');
   };
+  // FingerPrint Authantication
+  
+const authenticateWithFingerprint = async () => {
+  const rnBiometrics = new ReactNativeBiometrics();
+
+  try {
+    const { biometryType } = await rnBiometrics.isSensorAvailable();
+
+    if (biometryType === BiometryTypes.Biometrics) {
+      const result = await rnBiometrics.simplePrompt({
+        promptMessage: 'Scan your fingerprint to proceed',
+        cancelButtonText: 'Cancel',
+      });
+
+      if (result.success) {
+        console.log('Fingerprint authentication successful');
+      } else {
+        console.log('Fingerprint authentication failed or canceled');
+      }
+    } else {
+      console.log('Biometric authentication is not available.');
+    }
+  } catch (error) {
+    console.error('An error occurred during biometric authentication:', error);
+  }
+};
+
+authenticateWithFingerprint();
 
   return (
     <View
