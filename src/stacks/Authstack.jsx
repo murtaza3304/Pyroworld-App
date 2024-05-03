@@ -9,7 +9,7 @@ import ResetAuthCode from '../screens/auth/ResetAuthCode';
 import {useAuth} from '../hooks';
 
 import {useEffect} from 'react';
-import AppStack from './AppStack';
+import AppStack from './Appstack';
 import Loading from '../screens/app/Profile/Loading';
 
 const Stack = createNativeStackNavigator();

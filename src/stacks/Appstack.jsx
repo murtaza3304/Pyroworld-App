@@ -3,9 +3,7 @@ import BottomTab from './BottomTab';
 import {useTheme} from '../assets/theme/Theme';
 import setting from '../screens/app/Profile/setting';
 import Authstack from './Authstack';
-
 const Stack = createNativeStackNavigator();
-
 function AppStack() {
   const theme = useTheme();
   return (
@@ -20,5 +18,4 @@ function AppStack() {
     </Stack.Navigator>
   );
 }
-
 export default AppStack;
