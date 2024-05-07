@@ -11,28 +11,34 @@ import {useAuth} from '../hooks';
 import {useEffect} from 'react';
 import AppStack from './Appstack';
 import Loading from '../screens/app/Profile/Loading';
+import {useLoading} from '../context';
+import SplashScreen from '../screens/SplashScreen/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
 function Authstack() {
   const {user, tokens, loading} = useAuth();
-  useEffect(() => {}, [user, tokens, loading]);
+  const {loading: contextLoading} = useLoading();
+  useEffect(() => {}, [user, tokens, loading, contextLoading]);
+  console.log("loadinggggggggg",loading)
 
   return loading ? (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Loading" component={Loading} />
     </Stack.Navigator>
-  ) : !user && !tokens ? (
+  ) : (!user && !tokens) || !user.isEmailVerified ? (
     <Stack.Navigator
-      initialRouteName={'Login'}
+      initialRouteName={
+        user && user?.isEmailVerified ? 'EmailAuthantication' : 'Login'
+      }
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
-      {/* <Stack.Screen name="setting" component={setting} /> */}
       <Stack.Screen
         name="EmailAuthantication"
         component={EmailAuthantication}
       />
+
       <Stack.Screen name="PasswordReset" component={PasswordReset} />
       <Stack.Screen name="ResetAuthCode" component={ResetAuthCode} />
       <Stack.Screen name="AppStack" component={AppStack} />

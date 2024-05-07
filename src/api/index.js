@@ -7,7 +7,7 @@ import {
   emailVerification,
   verifyEmail,
 } from './routes/auth';
-import {getToken} from './routes/kyc';
+import {getToken, getStatus} from './routes/kyc';
 
 export {
   register,
@@ -18,4 +18,5 @@ export {
   emailVerification,
   verifyEmail,
   getToken,
+  getStatus
 };

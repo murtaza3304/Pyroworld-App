@@ -52,9 +52,9 @@ const Profile = ({navigation}) => {
   });
 
   const handleSettingsPress = () => {
-    navigation.navigate('setting');
+    navigation.navigate('Setting')
+    console.log('THISSSSSSSSSSSSSSSSSSSSSSSSS')
   };
-  console.log(user, 'iseeeeeeeeeeeeeeeeeeeeeeeeee');
 
   return (
     <View style={styles.view}>

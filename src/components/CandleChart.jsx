@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, Dimensions} from 'react-native';
+import {View, Text, ScrollView, Dimensions, ImageBackground} from 'react-native';
 import {Svg, Rect, Line} from 'react-native-svg';
 import {
   PinchGestureHandler,
@@ -137,7 +137,7 @@ const CandleChart = () => {
   <YAxis
     data={data.flatMap(item => item.value)} 
     contentInset={{ top: 20, bottom: 20, }}
-    svg={{ fontSize: 10, fill: 'grey', dy: 5}}
+    svg={{ fontSize: 10, fill: 'grey', dy: 15}}
     numberOfTicks={5}
     formatLabel={value => `${value}`}
   />

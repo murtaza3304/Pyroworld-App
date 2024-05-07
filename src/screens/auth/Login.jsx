@@ -16,7 +16,7 @@ import {SvgXml} from 'react-native-svg';
 import {assets} from '../../assets/images/assets';
 import {signin} from '../../api';
 import {signinValidation} from '../../validations';
-import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
+import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 
 function Login({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
@@ -49,29 +49,34 @@ function Login({navigation}) {
 
   const handleLogin = async () => {
     const error = signinValidation(formData);
-    setLoading(true)
+    setLoading(true);
     if (Object.keys(error).length > 0) {
       setErrors(error);
-      setLoading(false)
+      setLoading(false);
       return;
     } else {
       try {
         const response = await signin(formData);
-
-        setLoading(true)
+        setLoading(true);
         if (response) {
           setFormData({
             email: '',
             password: '',
-          });
-          navigation.navigate('AppStack');
+            
+          }
+        );
+         
+          navigation.navigate('EmailAuthantication');
         }
+        else{navigation.navigate("EmailAuthantication")}
+        setLoading(false)
+
       } catch (error) {
         setErrors({
           email: 'Invalid Credentials',
           password: 'Invalid Credentials',
-        });
-        setLoading(false)
+        } );
+        setLoading(false);
       }
     }
   };
@@ -90,33 +95,33 @@ function Login({navigation}) {
     navigation.navigate('PasswordReset');
   };
   // FingerPrint Authantication
-  
-const authenticateWithFingerprint = async () => {
-  const rnBiometrics = new ReactNativeBiometrics();
 
-  try {
-    const { biometryType } = await rnBiometrics.isSensorAvailable();
+  // const authenticateWithFingerprint = async () => {
+  //   const rnBiometrics = new ReactNativeBiometrics();
 
-    if (biometryType === BiometryTypes.Biometrics) {
-      const result = await rnBiometrics.simplePrompt({
-        promptMessage: 'Scan your fingerprint to proceed',
-        cancelButtonText: 'Cancel',
-      });
+  //   try {
+  //     const { biometryType } = await rnBiometrics.isSensorAvailable();
 
-      if (result.success) {
-        console.log('Fingerprint authentication successful');
-      } else {
-        console.log('Fingerprint authentication failed or canceled');
-      }
-    } else {
-      console.log('Biometric authentication is not available.');
-    }
-  } catch (error) {
-    console.error('An error occurred during biometric authentication:', error);
-  }
-};
+  //     if (biometryType === BiometryTypes.Biometrics) {
+  //       const result = await rnBiometrics.simplePrompt({
+  //         promptMessage: 'Scan your fingerprint to proceed',
+  //         cancelButtonText: 'Cancel',
+  //       });
 
-authenticateWithFingerprint();
+  //       if (result.success) {
+  //         console.log('Fingerprint authentication successful');
+  //       } else {
+  //         console.log('Fingerprint authentication failed or canceled');
+  //       }
+  //     } else {
+  //       console.log('Biometric authentication is not available.');
+  //     }
+  //   } catch (error) {
+  //     console.error('An error occurred during biometric authentication:', error);
+  //   }
+  // };
+
+  // authenticateWithFingerprint();
 
   return (
     <View

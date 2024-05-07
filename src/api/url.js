@@ -1,2 +1,2 @@
-const Url = "https://brick-red-nightingale-robe.cyclic.app/v1";
+const Url = 'https://crazy-boa-mittens.cyclic.app/v1';
 export default Url;

@@ -6,8 +6,8 @@ import Chart from './Chart';
 import {fonts} from '../../assets/fonts';
 
 export default function PriceCard({data, layout, wallet}) {
-  const isDarkMode = useColorScheme() === 'dark'
-  console.log(getLogo(data.symbol));
+  const isDarkMode = useColorScheme() === 'dark';
+  // console.log(getLogo(data.symbol));
   const theme = useTheme();
   const styles = StyleSheet.create({
     card: {
@@ -23,13 +23,13 @@ export default function PriceCard({data, layout, wallet}) {
       borderRadius: 20,
       paddingHorizontal: layout && 10,
       overflow: 'hidden',
-shadowOffset: {
-	width: 0,
-	height: 1,
-},
-shadowOpacity: 0.22,
-shadowRadius: 2.22,
-elevation: 2,
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+      elevation: 2,
     },
     head: {
       ...theme.flex.row,
@@ -42,7 +42,7 @@ elevation: 2,
     },
   });
   return (
-    <View style={[styles.card, {shadowColor: isDarkMode  ? '#fff' : '#000'}]}>
+    <View style={[styles.card, {shadowColor: isDarkMode ? '#fff' : '#000'}]}>
       <View style={styles.head}>
         <SvgXml
           xml={getLogo(data.symbol.toLowerCase())}
@@ -114,15 +114,12 @@ elevation: 2,
             }}>
             {data.usdtValue}
           </Text>
-          <Text style={{fontSize: 10}}>
-            +10.2$
-          </Text>
+          <Text style={{fontSize: 10, color: theme.gray}}>+10.2$</Text>
         </View>
       )}
 
       {!wallet && !layout && (
-        <View style={{ height: 40, marginBottom: 9, paddingBottom: 10}}>
-          
+        <View style={{height: 40, marginBottom: 9, paddingBottom: 10}}>
           <Chart
             width={Dimensions.get('window').width * 0.7}
             height={50}

@@ -6,17 +6,20 @@ import {
   View,
   useColorScheme,
   TextInput,
+  Alert,
 } from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {assets} from '../../assets/images/assets';
 import {useTheme} from '../../assets/theme/Theme';
 import {fonts} from '../../assets/fonts';
-import {color, greaterThan} from 'react-native-reanimated';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-import {verifyEmail, emailVerification} from '../../api';
+import {verifyEmail, emailVerification, logout} from '../../api';
+import {useAuth} from '../../hooks';
+import Loading from '../app/Profile/Loading';
 
 const EmailAuthantication = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
+  const {user, tokens, loading} = useAuth();
   const theme = useTheme();
   const [code, setCode] = useState('');
   const handleSubmit = async () => {
@@ -25,199 +28,202 @@ const EmailAuthantication = ({navigation}) => {
         await verifyEmail(code);
         navigation.navigate('AppStack');
       } catch (error) {
-        console.log('erprr', error);
+        console.log('erorr', error);
+        Alert.alert('fail')
       }
     }
   };
   useEffect(() => {
-    emailVerification();
-  }, []);
-  return (
-    <View
-      style={{
-        flex: 1,
-        paddingHorizontal: 20,
-        backgroundColor: isDarkMode ? '#000' : '#fff',
-        paddingTop: 10,
-      }}>
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <SvgXml xml={assets.back} />
-      </TouchableOpacity>
+    if (!loading) {
+      if (!user && !tokens) {
+        navigation.navigate('Login');
+      } else if (user && tokens && !user?.isEmailVerified) {
+        emailVerification();
+      }
+    }
+  }, [user, tokens, loading]);
+  useEffect(() => {
+    if (user?.isEmailVerified) {
+      navigation.navigate('AppStack');
+    }
+  }, [user]);
+
+  return !user ? (
+    <Loading />
+  ) : (
+    !user?.isEmailVerified && (
       <View
         style={{
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 30,
+          flex: 1,
+          paddingHorizontal: 20,
+          backgroundColor: isDarkMode ? '#000' : '#fff',
+          paddingTop: 10,
         }}>
-        <Text
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <SvgXml xml={assets.back} />
+        </TouchableOpacity>
+        <View
           style={{
-            color: isDarkMode ? '#fff' : '#000',
-            fontFamily: fonts.bold,
-            fontSize: 22,
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 30,
           }}>
-          Email Verification
-        </Text>
-        <Text
-          style={{
-            color: isDarkMode ? '#fff' : '#000',
-            fontFamily: fonts.regular,
-          }}>
-          Please enter the four degit code send to
-        </Text>
-        <View style={{flexDirection: 'row', fontFamily: fonts.bold}}>
           <Text
             style={{
               color: isDarkMode ? '#fff' : '#000',
               fontFamily: fonts.bold,
-              marginRight: 4,
+              fontSize: 22,
             }}>
-            1234@gmail.com
+            Email Verification
           </Text>
           <Text
             style={{
               color: isDarkMode ? '#fff' : '#000',
               fontFamily: fonts.regular,
             }}>
-            Through SMS
+            Please enter the four degit code send to your Email
           </Text>
         </View>
-      </View>
-      <View
-        style={{
-          width: '100%',
-          height: 50,
-          width: '100%',
-          alignItems: 'center',
-          marginTop: 20,
-        }}>
-        <SmoothPinCodeInput
-          textStyle={{color: isDarkMode ? '#fff' : '#000', fontSize: 30}}
-          cellSize={50}
-          cellStyle={{
-            borderBottomWidth: 2,
-            borderColor: 'gray',
-          }}
-          cellStyleFocused={{
-            borderColor: isDarkMode ? '#fff' : '#000',
-          }}
-          value={code}
-          cellSpacing={10}
-          codeLength={4}
-          onTextChange={text => setCode(text, console.log('......', text))}
-        />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 20,
-        }}>
-        <Text
+        <View
           style={{
-            color: isDarkMode ? '#fff' : '#000',
-            marginRight: 4,
-            fontFamily: fonts.regular,
+            width: '100%',
+            height: 50,
+            width: '100%',
+            alignItems: 'center',
+            marginTop: 20,
           }}>
-          Didn't Receive a code
-        </Text>
-        <TouchableOpacity onPress={emailVerification}>
-          <Text style={{color: theme.blue, fontFamily: fonts.bold}}>
-            Resend Code
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 2,
-        }}>
-        <Text
-          style={{color: isDarkMode ? '#fff' : '#000', fontFamily: fonts.bold}}>
-          Wrong Email
-        </Text>
-      </View>
-      <View>
-        <TouchableOpacity
-          style={[styles.BtnStyle, {backgroundColor: '#007bff'}]}
-          onPress={handleSubmit}
-          disabled={code.length !== 4}>
+          <SmoothPinCodeInput
+            textStyle={{color: isDarkMode ? '#fff' : '#000', fontSize: 30}}
+            cellSize={50}
+            cellStyle={{
+              borderBottomWidth: 2,
+              borderColor: 'gray',
+            }}
+            cellStyleFocused={{
+              borderColor: isDarkMode ? '#fff' : '#000',
+            }}
+            value={code}
+            cellSpacing={10}
+            codeLength={4}
+            onTextChange={text => setCode(text, console.log('......', text))}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 20,
+          }}>
           <Text
             style={{
-              color: 'white',
-              fontFamily: fonts.bold,
-              fontSize: 18,
+              color: isDarkMode ? '#fff' : '#000',
+              marginRight: 4,
+              fontFamily: fonts.regular,
             }}>
-            Verify
+            Didn't Receive a code
           </Text>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: 14,
-        }}>
-        <Text
+          <TouchableOpacity onPress={emailVerification}>
+            <Text style={{color: theme.blue, fontFamily: fonts.bold}}>
+              Resend Code
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
           style={{
-            color: isDarkMode ? '#fff' : '#000',
-            fontFamily: fonts.regular,
-            fontSize: 13,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 2,
           }}>
-          By continuining you are indicating that you accept our
-        </Text>
+          <Text
+            style={{
+              color: isDarkMode ? '#fff' : '#000',
+              fontFamily: fonts.bold,
+            }}>
+            Wrong Email
+          </Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={[styles.BtnStyle, {backgroundColor: '#007bff'}]}
+            onPress={handleSubmit}
+            disabled={code.length !== 4}>
+            <Text
+              style={{
+                color: 'white',
+                fontFamily: fonts.bold,
+                fontSize: 18,
+              }}>
+              Verify
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            flexDirection: 'row',
+            marginTop: 14,
           }}>
-          <TouchableOpacity
-            style={{
-              borderBottomWidth: 1,
-              borderColor: isDarkMode ? '#fff' : '#000',
-              marginRight: 5,
-            }}>
-            <Text
-              style={{
-                color: isDarkMode ? '#fff' : '#000',
-                fontFamily: fonts.regular,
-                fontSize: 13,
-              }}>
-              Terms of use
-            </Text>
-          </TouchableOpacity>
           <Text
             style={{
               color: isDarkMode ? '#fff' : '#000',
               fontFamily: fonts.regular,
               fontSize: 13,
             }}>
-            and our
+            By continuining you are indicating that you accept our
           </Text>
-          <TouchableOpacity
+          <View
             style={{
-              borderBottomWidth: 1,
-              borderColor: isDarkMode ? '#fff' : '#000',
-              marginLeft: 5,
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
             }}>
+            <TouchableOpacity
+              style={{
+                borderBottomWidth: 1,
+                borderColor: isDarkMode ? '#fff' : '#000',
+                marginRight: 5,
+              }}>
+              <Text
+                style={{
+                  color: isDarkMode ? '#fff' : '#000',
+                  fontFamily: fonts.regular,
+                  fontSize: 13,
+                }}>
+                Terms of use
+              </Text>
+            </TouchableOpacity>
             <Text
               style={{
                 color: isDarkMode ? '#fff' : '#000',
                 fontFamily: fonts.regular,
                 fontSize: 13,
               }}>
-              Privacy Policy
+              and our
             </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                borderBottomWidth: 1,
+                borderColor: isDarkMode ? '#fff' : '#000',
+                marginLeft: 5,
+              }}>
+              <Text
+                style={{
+                  color: isDarkMode ? '#fff' : '#000',
+                  fontFamily: fonts.regular,
+                  fontSize: 13,
+                }}>
+                Privacy Policy
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    )
   );
 };
 

@@ -37,7 +37,7 @@ const Setting = ({navigation}) => {
         <TouchableOpacity
           style={{borderRadius: 100}}
           onPress={() => {
-            navigation.navigate('App');
+            navigation.goBack();
           }}>
           <SvgXml xml={assets.back} />
         </TouchableOpacity>

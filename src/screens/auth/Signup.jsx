@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import {logo} from '../../assets/images';
 import {useTheme} from '../../assets/theme/Theme';
@@ -23,6 +24,7 @@ function SignUp({navigation}) {
   const theme = useTheme();
   const [secureMode, setSecureMode] = useState(true);
   const [confirmPasswordSecure, setConfirmPasswordSecure] = useState(true);
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -45,19 +47,23 @@ function SignUp({navigation}) {
   };
 
   const handleSignUp = async () => {
+    setLoading(true)
     const error = signUpValidation(formData);
     if (Object.keys(error).length > 0) {
       setErrors(error);
+      setLoading(false)
       return;
     } else {
       const {confirmPassword, ...rest} = formData;
       try {
         await register(rest);
         navigation.navigate('EmailAuthantication');
+        setLoading(false)
       } catch (error) {
         console.error('registration error:', error);
       }
     }
+    setLoading(false)
   };
 
   const handleChange = (name, value) => {
@@ -186,9 +192,14 @@ function SignUp({navigation}) {
         </View>
 
         <Text style={styles.errorText}>{errors?.confirmPassword}</Text>
+        
 
         <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-          <Text style={styles.signUpButtonText}>Sign Up</Text>
+        {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={styles.signUpButtonText}>Sign Up</Text>
+          )}
         </TouchableOpacity>
         <View
           style={{

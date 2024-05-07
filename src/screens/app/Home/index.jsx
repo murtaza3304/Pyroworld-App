@@ -17,6 +17,7 @@ import {BalanceCard} from '../../../components';
 import {fonts} from '../../../assets/fonts';
 import {useAuth} from '../../../hooks';
 import greetingTime from 'greeting-time';
+import Setting from '../Profile/setting';
 
 function Home({navigation}) {
   const theme = useTheme();
@@ -108,7 +109,7 @@ function Home({navigation}) {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('setting')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
               <SvgXml
                 xml={isDarkMode ? assets.SettingDarkMode : assets.settings}
               />

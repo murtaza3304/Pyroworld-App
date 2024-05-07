@@ -5,31 +5,34 @@ import {useTheme} from './src/assets/theme/Theme';
 import {StatusBar, View} from 'react-native';
 
 import SplashScreen from './src/screens/SplashScreen/SplashScreen';
+import {MyProvider as ContextProvider} from './src/context';
 
 function App() {
   const theme = useTheme();
-  const [splashVisible, setSplashVisible] = useState(false);
+  const [splashVisible, setSplashVisible] = useState(true);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   setSplashVisible(false);
-    // }, 3000);
+    setTimeout(() => {
+      setSplashVisible(false);
+    }, 3000);
   }, []);
 
   return (
-    <NavigationContainer>
-      <StatusBar
-        backgroundColor={theme.background}
-        barStyle={'light-content'}
-      />
-      {splashVisible ? (
-        <SplashScreen />
-      ) : (
-        <View style={{flex: 1, marginTop: Platform.OS === 'ios' ? 30 : 0}}>
-          <Authstack />
-        </View>
-      )}
-    </NavigationContainer>
+    <ContextProvider>
+      <NavigationContainer>
+        <StatusBar
+          backgroundColor={theme.background}
+          barStyle={'light-content'}
+        />
+        {splashVisible ? (
+          <SplashScreen />
+        ) : (
+          <View style={{flex: 1, marginTop: Platform.OS === 'ios' ? 30 : 0}}>
+            <Authstack />
+          </View>
+        )}
+      </NavigationContainer>
+    </ContextProvider>
   );
 }
 

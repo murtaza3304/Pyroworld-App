@@ -1,27 +1,26 @@
-import { StyleSheet, Text, View, ActivityIndicator, Dimensions } from 'react-native';
+import { View, Image, useColorScheme} from 'react-native';
 import React from 'react';
+import { useTheme } from '../../../assets/theme/Theme';
+import LoaderKit from 'react-native-loader-kit'
 
-const Loading = () => {
+const Loading = ({navigation}) => {
+  const theme = useTheme()
   return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color="#0000ff" />
+    <View
+      style={{
+        width: '100%',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <LoaderKit
+      LineScalePulseOut
+        style={{width: 50, height: 50}}
+        name={'BallPulse'}
+        color={theme.text}
+      />
     </View>
   );
 };
 
 export default Loading;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)', // Semi-transparent background
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 9999, // Ensure it's above everything else
-  },
-});

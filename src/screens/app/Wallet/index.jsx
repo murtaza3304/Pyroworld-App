@@ -76,7 +76,7 @@ const Wallet = () => {
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      borderWidth: (0.5),
+      borderWidth: 0.5,
       borderRadius: 10,
       paddingHorizontal: 10,
       marginVertical: 10,
@@ -337,7 +337,17 @@ const Wallet = () => {
               backgroundColor: theme.background,
             },
           ]}>
-          {/* Deposit Modal Contant */}
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              right: 0,
+              padding: 10,
+              borderRadius: 50,
+            }}
+            onPress={toggleDepositModal}>
+            <SvgXml xml={isDarkMode ? assets.CrossWhite : assets.CrossButton} />
+          </TouchableOpacity>
+
           <View
             style={{
               flexDirection: 'row',
@@ -346,7 +356,10 @@ const Wallet = () => {
               marginHorizontal: 25,
             }}>
             <View style={[styles.container, {borderColor: theme.gray}]}>
-              <SvgXml xml={ isDarkMode?  assets.search: assets.searchlight} style={{...styles.icon}} />
+              <SvgXml
+                xml={isDarkMode ? assets.search : assets.searchlight}
+                style={{...styles.icon}}
+              />
 
               <TextInput
                 style={styles.input}
@@ -481,12 +494,6 @@ const Wallet = () => {
               keyExtractor={item => item.id.toString()}
             />
           </ScrollView>
-
-          <TouchableOpacity
-            onPress={toggleDepositModal}
-            style={[styles.button, {backgroundColor: theme.blue}]}>
-            <Text style={{color: 'black', fontFamily: fonts.bold}}>Back</Text>
-          </TouchableOpacity>
         </View>
       </Modal>
 
@@ -497,7 +504,8 @@ const Wallet = () => {
         animationIn="slideInUp"
         animationOut="slideOutDown"
         backdropOpacity={0.5}
-        backdropColor="black">
+        backdropColor="black"
+          onBackdropPress={toggleWithdrawModal}>
         <View
           style={[
             styles.modalContent,
@@ -507,7 +515,16 @@ const Wallet = () => {
               backgroundColor: theme.background,
             },
           ]}>
-          {/* Withdraw Modal Contant */}
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              right: 0,
+              padding: 10,
+              borderRadius: 50,
+            }}
+            onPress={toggleWithdrawModal}>
+            <SvgXml xml={isDarkMode ? assets.CrossWhite : assets.CrossButton} />
+          </TouchableOpacity>
           <View
             style={{
               flexDirection: 'row',
@@ -529,7 +546,7 @@ const Wallet = () => {
               style={{padding: 3, marginLeft: 3}}
               onPress={() => clearSearch()}>
               <Text style={{color: theme.blue, fontFamily: fonts.bold}}>
-                cancel
+                clear
               </Text>
             </TouchableOpacity>
           </View>
@@ -648,31 +665,12 @@ const Wallet = () => {
             )}
             keyExtractor={item => item.id.toString()}
           />
-          <TouchableOpacity
-            onPress={toggleWithdrawModal}
-            style={{
-              width: '100%',
-              backgroundColor: theme.blue,
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingVertical: 10,
-              borderRadius: 10,
-              marginTop: 12,
-            }}>
-            <Text
-              style={{
-                color: theme.text,
-                fontSize: 14,
-                fontFamily: fonts.semibold,
-              }}>
-              Exit
-            </Text>
-          </TouchableOpacity>
+         
         </View>
       </Modal>
 
       {/* Transfer Modal */}
-      <Modal
+      {/* <Modal
         isVisible={isTransferModalVisible}
         style={styles.modalContainer}
         animationIn="slideInUp"
@@ -706,7 +704,7 @@ const Wallet = () => {
             </Text>
           </TouchableOpacity>
         </View>
-      </Modal>
+      </Modal> */}
 
       {/* ...............Additional Modal or all network modal.......... */}
       <Modal
@@ -1069,7 +1067,6 @@ const Wallet = () => {
           </View>
         </View>
       </Modal>
-     
     </>
   );
 };

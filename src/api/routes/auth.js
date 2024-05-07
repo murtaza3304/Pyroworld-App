@@ -40,17 +40,17 @@ export const forgetPassword = async body => {
 export const logout = async navigation => {
   await AsyncStorage.removeItem('tokens');
   await AsyncStorage.removeItem('user');
-  navigation.navigate('AuthStack');
+  navigation.navigate('Authstack');
   navigation.reset();
 };
 
 export const resetPassword = async body => {
   try {
     const res = await axios.post(`${Url}/auth/reset-password`, body);
-    console.log('response', res);
+    // console.log('response', res);
     return res.data;
   } catch (error) {
-    console.error('Error sending OTP:.........', error);
+    // console.error('Error sending OTP:.........', error);
     throw error;
   }
 };
