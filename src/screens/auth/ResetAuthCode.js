@@ -8,19 +8,16 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import {SvgXml} from 'react-native-svg';
-import {assets} from '../../assets/images/assets';
-import {useTheme} from '../../assets/theme/Theme';
+import {useTheme, useThemeClasses} from '../../assets/theme/Theme';
 import {fonts} from '../../assets/fonts';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-import {logo} from '../../assets/images';
 import {resetPassword} from '../../api';
-import { resetPasswordValidation } from '../../validations';
-
+import {resetPasswordValidation} from '../../validations';
 
 const ResetAuthCode = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
   const theme = useTheme();
+  const themeClasses = useThemeClasses();
   const [formData, setFormData] = useState({
     token: '',
     password: '',
@@ -38,7 +35,7 @@ const ResetAuthCode = ({navigation}) => {
     }));
     setErrors(prevState => ({
       ...prevState,
-      [field]: "",
+      [field]: '',
     }));
   };
 
@@ -48,7 +45,7 @@ const ResetAuthCode = ({navigation}) => {
     }
 
     const handleSubmit = async () => {
-      const {confirmPassword,...rest} = formData;
+      const {confirmPassword, ...rest} = formData;
 
       const rejection = resetPasswordValidation(rest);
       if (Object.keys(rejection)?.length > 0) {
@@ -56,7 +53,7 @@ const ResetAuthCode = ({navigation}) => {
         return;
       } else {
         try {
-          const {confirmPassword,...rest} = formData;
+          const {confirmPassword, ...rest} = formData;
           await resetPassword(rest);
           navigation.navigate('Login');
         } catch (error) {
@@ -66,48 +63,28 @@ const ResetAuthCode = ({navigation}) => {
     };
 
     return (
-      <View
-        style={[
-          styles.container,
-          {backgroundColor: isDarkMode ? '#000' : '#fff', marginTop: 30},
-        ]}>
-        <Text
-          style={{
-            color: isDarkMode ? '#fff' : '#000',
-            fontFamily: fonts.bold,
-            fontSize: 22,
-            marginVertical: 20,
-          }}>
+      <View className={`flex flex-col w-full p-8 justify-center items-center`}>
+        <Text className={`${themeClasses.textColor} text-2xl font-bold my-5`}>
           Set Password
         </Text>
-        <View style={{width: '100%'}}>
+        <View className="w-full">
           <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: isDarkMode ? '#333' : '#ddd',
-                color: isDarkMode ? '#fff' : '#000',
-              },
-            ]}
+            className={`border-b border-solid ${themeClasses.border} ${theme.textColor}`}
             placeholder="Password"
-            placeholderTextColor={isDarkMode ? '#888' : '#666'}
+            placeholderTextColor={'gray'}
             // secureTextEntry={true}
             value={formData.password}
             onChangeText={text => handleChange('password', text)}
           />
         </View>
 
-        <Text style={styles.errorText}>{errors?.password}</Text>
+        <Text className={`flex justify-start ${theme.redColor} mb-1`}>
+          {errors?.password}
+        </Text>
 
-        <View style={{width: '100%'}}>
+        <View className={`w-full`}>
           <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: isDarkMode ? '#333' : '#ddd',
-                color: isDarkMode ? '#fff' : '#000',
-              },
-            ]}
+            className={`border-b border-solid ${themeClasses.border} ${theme.textColor}`}
             placeholder="Confirm Password"
             placeholderTextColor={isDarkMode ? '#888' : '#666'}
             // secureTextEntry={true}
@@ -116,18 +93,13 @@ const ResetAuthCode = ({navigation}) => {
           />
         </View>
 
-        <Text style={styles.errorText}>{errors?.confirmPassword}</Text>
+        <Text className={`flex justify-start ${theme.redColor} mb-1 w-full`}>
+          {errors?.confirmPassword}
+        </Text>
         <TouchableOpacity
-          style={[styles.BtnStyle, {backgroundColor: '#007bff', width: '100%'}]}
+          className={`${themeClasses.blueBg} w-full h-[46px] flex justify-center items-center rounded-lg`}
           onPress={handleSubmit}>
-          <Text
-            style={{
-              color: 'white',
-              fontFamily: fonts.bold,
-              fontSize: 18,
-            }}>
-            Verify
-          </Text>
+          <Text className={`text-white font-bold text-lg`}>Verify</Text>
         </TouchableOpacity>
       </View>
     );
@@ -135,50 +107,16 @@ const ResetAuthCode = ({navigation}) => {
 
   return (
     <View
-      style={{
-        flex: 1,
-        paddingHorizontal: 20,
-        backgroundColor: isDarkMode ? '#000' : '#fff',
-        paddingTop: 10,
-      }}>
-      <TouchableOpacity onPress={() => navigation.navigate('PasswordReset')}>
-        <SvgXml xml={assets.back} />
-      </TouchableOpacity>
-      <View
-        style={{
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 30,
-        }}>
-        <Text
-          style={{
-            color: isDarkMode ? '#fff' : '#000',
-            fontFamily: fonts.bold,
-            fontSize: 22,
-          }}>
+      className={`flex justify-start items-center flex-col ${themeClasses.sheetColor} h-full`}>
+      <View className={`flex justify-center items-center mt-[70px] mb-[50px]`}>
+        <Text className={`${themeClasses.textColor} font-bold text-2xl`}>
           Email Verification
         </Text>
-        <Text
-          style={{
-            color: isDarkMode ? '#fff' : '#000',
-            fontFamily: fonts.regular,
-          }}>
-          Please enter the four digit code sent to your
-        </Text>
-        <Text
-          style={{color: isDarkMode ? '#fff' : '#000', fontFamily: fonts.bold}}>
-          Mail
+        <Text className={`${themeClasses.textColor}  text-sm`}>
+          Please enter the four digit code sent to your Mail
         </Text>
       </View>
-      <View
-        style={{
-          width: '100%',
-          height: 50,
-          width: '100%',
-          alignItems: 'center',
-          marginTop: 20,
-        }}>
+      <View className="w-full h-[80px] flex justify-center items-center">
         <SmoothPinCodeInput
           textStyle={{color: isDarkMode ? '#fff' : '#000', fontSize: 30}}
           cellSize={50}
@@ -196,22 +134,12 @@ const ResetAuthCode = ({navigation}) => {
         />
       </View>
       <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 20,
-        }}>
-        <Text
-          style={{
-            color: isDarkMode ? '#fff' : '#000',
-            marginRight: 4,
-            fontFamily: fonts.regular,
-          }}>
-          Didn't Receive a code
+        className={`flex flex-row ${formData.token.length > 0 && 'hidden'} `}>
+        <Text className={`${themeClasses.textColor} font-md`}>
+          Didn't Receive a code?
         </Text>
         <TouchableOpacity>
-          <Text style={{color: theme.blue, fontFamily: fonts.bold}}>
+          <Text className={` font-bold ${themeClasses.blueText}`}>
             Try Again
           </Text>
         </TouchableOpacity>
@@ -219,63 +147,19 @@ const ResetAuthCode = ({navigation}) => {
 
       {renderPasswordFields()}
 
-      <View
-        style={{
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: 14,
-        }}>
-        <Text
-          style={{
-            color: isDarkMode ? '#fff' : '#000',
-            fontFamily: fonts.regular,
-            fontSize: 13,
-          }}>
+      <View className="flex justify-center items-center w-full mt-[10px] mb-[50px]">
+        <Text className={`${themeClasses.textColor} text-sm`}>
           By continuing you are indicating that you accept our
         </Text>
-        <View
-          style={{
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row',
-          }}>
-          <TouchableOpacity
-            style={{
-              borderBottomWidth: 1,
-              borderColor: isDarkMode ? '#fff' : '#000',
-              marginRight: 5,
-            }}>
-            <Text
-              style={{
-                color: isDarkMode ? '#fff' : '#000',
-                fontFamily: fonts.regular,
-                fontSize: 13,
-              }}>
+        <View className="flex w-full flex-row justify-center items-center">
+          <TouchableOpacity className="border-b border-solid mr-1 ">
+            <Text className={`${themeClasses.textColor} text-sm`}>
               Terms of use
             </Text>
           </TouchableOpacity>
-          <Text
-            style={{
-              color: isDarkMode ? '#fff' : '#000',
-              fontFamily: fonts.regular,
-              fontSize: 13,
-            }}>
-            and our
-          </Text>
-          <TouchableOpacity
-            style={{
-              borderBottomWidth: 1,
-              borderColor: isDarkMode ? '#fff' : '#000',
-              marginLeft: 5,
-            }}>
-            <Text
-              style={{
-                color: isDarkMode ? '#fff' : '#000',
-                fontFamily: fonts.regular,
-                fontSize: 13,
-              }}>
+          <Text className={`${themeClasses.textColor} text-sm`}>and our</Text>
+          <TouchableOpacity className="border-b border-solid ml-1 ">
+            <Text className={`${themeClasses.textColor} text-sm`}>
               Privacy Policy
             </Text>
           </TouchableOpacity>

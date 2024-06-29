@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import Authstack from './src/stacks/Authstack';
-import {useTheme} from './src/assets/theme/Theme';
-import {StatusBar, View} from 'react-native';
-
+import {useTheme, useThemeClasses} from './src/assets/theme/Theme';
+import {StatusBar, View, Platform} from 'react-native';
 import SplashScreen from './src/screens/SplashScreen/SplashScreen';
 import {MyProvider as ContextProvider} from './src/context';
 
 function App() {
   const theme = useTheme();
+  const themeClasses = useThemeClasses();
   const [splashVisible, setSplashVisible] = useState(true);
 
   useEffect(() => {
@@ -21,13 +21,16 @@ function App() {
     <ContextProvider>
       <NavigationContainer>
         <StatusBar
-          backgroundColor={theme.background}
-          barStyle={'light-content'}
+          backgroundColor={theme === 'dark' ? '#0a1224' : '#FFFFFF'}
+          barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         />
         {splashVisible ? (
           <SplashScreen />
         ) : (
-          <View style={{flex: 1, marginTop: Platform.OS === 'ios' ? 30 : 0}}>
+          <View
+            className={`flex-1 ${themeClasses.sheetColor} mt-${
+              Platform.OS === 'ios' ? 8 : 0
+            }`}>
             <Authstack />
           </View>
         )}

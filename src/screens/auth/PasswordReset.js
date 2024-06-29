@@ -1,23 +1,11 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  useColorScheme,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
-import {logo} from '../../assets/images';
-import {useTheme} from '../../assets/theme/Theme';
-import {fonts} from '../../assets/fonts';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {useThemeClasses} from '../../assets/theme/Theme';
 import {forgetPassword} from '../../api';
 import {forgetPasswordValidation} from '../../validations';
 
 function PasswordReset({navigation}) {
-  const isDarkMode = useColorScheme() === 'dark';
-  const theme = useTheme();
+  const theme = useThemeClasses();
   const [formData, setFormData] = useState({
     email: '',
   });
@@ -50,135 +38,44 @@ function PasswordReset({navigation}) {
   };
   return (
     <View
-      style={[
-        styles.container,
-        {backgroundColor: isDarkMode ? '#000' : '#fff', height: '100%'},
-      ]}>
-      <View
-        style={{
-          height: '70%',
-          justifyContent: 'center',
-          width: '100%',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}>
-        <Image
-          source={logo}
-          style={{width: 100, height: 100, marginBottom: 6}}
+      className={`flex flex-col w-full h-full p-6 justify-start items-center ${theme.sheetColor} `}>
+      <View className="flex justify-center items-center mt-[100px] mb-[40px]">
+        <Text className={`${theme.textColor} font-bold text-2xl`}>
+          Forget Password
+        </Text>
+        <Text className={`${theme.textColor}  text-md`}>
+          Just reset password by entering email
+        </Text>
+      </View>
+      <View className="flex w-full">
+        <TextInput
+          className={`border-b border-solid ${theme.border} ${theme.textColor}`}
+          placeholder="Enter Your Email"
+          placeholderTextColor={'gray'}
+          keyboardType="email-address"
+          value={formData.email}
+          onChangeText={text => handleChange('email', text)}
         />
-        <View style={{width: 210, justifyContent: 'center', textAlign: 'center'}}>
-          <Text
-            style={[
-              styles.title,
-              {
-                color: isDarkMode ? '#fff' : '#000',
-              },
-            ]}>
-            Forget Password
+        {
+          <Text className={`flex justify-start ${theme.redColor}`}>
+            {errors?.email}
           </Text>
-        </View>
-        <ScrollView
-          style={{width: '100%', height: '100%'}}
-          showsVerticalScrollIndicator={false}>
-          <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: isDarkMode ? '#333' : '#ddd',
-                color: isDarkMode ? '#fff' : '#000',
-              },
-            ]}
-            placeholder="Enter Your Email"
-            placeholderTextColor={isDarkMode ? '#888' : '#666'}
-            keyboardType="email-address"
-            value={formData.email}
-            onChangeText={text => handleChange('email', text)}
-          />
-          {<Text style={styles.errorText}>{errors?.email}</Text>}
+        }
 
-          <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-            <Text
-              style={{
-                ...styles.signUpButtonText,
-                width: '100%',
-                textAlign: 'center',
-              }}>
-              Confirm
-            </Text>
+        <TouchableOpacity
+          className={`${theme.blueBg} h-[45px] flex justify-center items-center rounded-lg`}
+          onPress={handleSignUp}>
+          <Text className="text-white text-lg font-bold">Confirm</Text>
+        </TouchableOpacity>
+        <View className="w-full flex flex-row justify-center mt-3">
+          <Text className={`${theme.textColor}`}>Already remebered?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text className={`${theme.blueText} font-bold mx-1`}>Login</Text>
           </TouchableOpacity>
-          <View
-            style={{
-              marginTop: 10,
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                color: isDarkMode ? '#fff' : '#000',
-                marginRight: 6,
-                fontFamily: fonts.regular,
-              }}>
-              Already remebered?
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={[styles.textStyle, {color: theme.blue}]}>Login</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+        </View>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    paddingHorizontal: 20,
-    height: '100%',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center'
-  },
-  input: {
-    width: '100%',
-    height: 50,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-  },
-  signUpButton: {
-    width: '100%',
-    height: 50,
-    borderRadius: 8,
-    backgroundColor: '#007bff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  signUpButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    width: 130,
-  },
-  textStyle: {
-    fontSize: 14,
-    marginRight: 6,
-    fontFamily: fonts.regular,
-  },
-  errorText: {
-    color: 'red',
-    marginTop: 0,
-    marginBottom: 6,
-    alignSelf: 'flex-start',
-  },
-});
 
 export default PasswordReset;

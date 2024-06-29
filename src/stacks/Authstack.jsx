@@ -6,6 +6,7 @@ import setting from '../screens/app/Profile/setting';
 import EmailAuthantication from '../screens/auth/EmailAuthantication';
 import PasswordReset from '../screens/auth/PasswordReset';
 import ResetAuthCode from '../screens/auth/ResetAuthCode';
+import Welcome from '../screens/auth/Welcome';
 import {useAuth} from '../hooks';
 
 import {useEffect} from 'react';
@@ -20,7 +21,6 @@ function Authstack() {
   const {user, tokens, loading} = useAuth();
   const {loading: contextLoading} = useLoading();
   useEffect(() => {}, [user, tokens, loading, contextLoading]);
-  console.log("loadinggggggggg",loading)
 
   return loading ? (
     <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -32,15 +32,15 @@ function Authstack() {
         user && user?.isEmailVerified ? 'EmailAuthantication' : 'Login'
       }
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="ResetAuthCode" component={ResetAuthCode} />
       <Stack.Screen
         name="EmailAuthantication"
         component={EmailAuthantication}
       />
-
       <Stack.Screen name="PasswordReset" component={PasswordReset} />
-      <Stack.Screen name="ResetAuthCode" component={ResetAuthCode} />
       <Stack.Screen name="AppStack" component={AppStack} />
     </Stack.Navigator>
   ) : (

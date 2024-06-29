@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiInstance from '../interceptor';
 
 export const register = async body => {
-  console.log(Url, 'urlllllllllll');
   try {
     const res = await axios.post(`${Url}/auth/register`, body);
     if (res)
