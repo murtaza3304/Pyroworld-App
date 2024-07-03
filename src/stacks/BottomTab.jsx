@@ -35,17 +35,17 @@ function BottomTab() {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarStyle: {
-            backgroundColor: theme.background,
+            backgroundColor: theme === 'dark' ? '#1A1A1A' : '#fff',
+
             height: 70,
             borderRadius: 15,
-            width: '96%',
+            width: '90%',
             outline: 'none',
             borderTopWidth: 0,
             margin: 0,
             padding: 0,
             alignSelf: 'center',
-            elevation:0
-        
+            elevation: 0,
           },
 
           tabBarIcon: ({color, size, focused}) => {
@@ -59,23 +59,21 @@ function BottomTab() {
             return (
               <View
                 style={[
-                  theme.flex.column,
                   {
+                    flex: 0,
+                    justifyContent: 'center',
+
                     borderRadius: 12,
-                    width: '62%',
+                    width: '80%',
                     padding: 2,
                   },
                 ]}>
                 <SvgXml
                   xml={iconName}
-                  width={23}
+                  width={24}
                   height={24}
                   fill={'#ffffff'}
                 />
-                <Text
-                  style={{fontSize: 12, color: focused ? theme.blue : theme.text}}>
-                  {route.name}
-                </Text>
               </View>
             );
           },

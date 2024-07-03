@@ -18,8 +18,8 @@ export const getStatus = async () => {
   console.log('Function called.....');
   try {
     const res = await apiInstance.get(`${Url}/sumsub/detail`);
-    console.log('Response:', res.data?.reviewStatus);
-    return res.data?.reviewStatus;
+    console.log('Response:', res.data);
+    return res.data;
   } catch (error) {
     // throw error;
   }

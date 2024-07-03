@@ -18,11 +18,19 @@ export const signUpValidation = (data, step) => {
 
   console.log('currentFeidls', currentFields);
 
-  if (currentFields.includes('email') && !emailRegex.test(data.email)) {
+  if (
+    currentFields.includes('email') &&
+    !emailRegex.test(data.email) &&
+    data.email !== ''
+  ) {
     errors.email = 'Please enter a valid email';
   }
 
-  if (currentFields.includes('phone') && !phoneRegex.test(data.phone)) {
+  if (
+    currentFields.includes('phone') &&
+    !phoneRegex.test(data.phone) &&
+    data.phone !== ''
+  ) {
     errors.email = 'Please enter valid phone number';
   }
 

@@ -41,7 +41,21 @@ function SignUp({navigation}) {
     credentialType: '',
     accountType: '',
   });
-  console.log('sfsfsfsd', formData);
+  useEffect(() => {
+    setFormData({
+      firstName: '',
+      lastName: '',
+      country: 'Spain',
+      email: '',
+      phone: '',
+      password: '',
+      code: 'ES',
+      confirmPassword: '',
+      credentialType: '',
+      accountType: '',
+    });
+    setStep(1);
+  }, []);
 
   // console.log('formData', formData);
   const [errors, setErrors] = useState({
@@ -55,26 +69,27 @@ function SignUp({navigation}) {
   });
 
   const handleSignUp = async () => {
-    const {confirmPassword, credentialType, email, phone, code, ...rest} =
+    const {confirmPassword, credentialType, email, phone,phoneCode, code, ...rest} =
       formData;
-    if (credentialType === 'email') {
-      rest.email = email;
-    } else {
-      rest.phone === formData.code.concat(formData.phone);
-    }
-
     const errors = signUpValidation(formData, 6);
+
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
       setLoading(true);
-
+      rest.country = code;
+      if (credentialType === 'email') {
+        rest.email = email;
+      } else {
+        rest.phone === formData.code.concat(formData.phone);
+      }
       try {
         await register(rest);
         navigation.navigate('EmailAuthantication');
         setLoading(false);
       } catch (error) {
         console.error('registration error:', error);
+        setLoading(false);
       }
     }
   };

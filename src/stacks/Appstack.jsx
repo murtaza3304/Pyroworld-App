@@ -17,8 +17,8 @@ function AppStack() {
         headerShown: false,
         contentStyle: { backgroundColor: theme.background },
       }}>
-      <Stack.Screen name='FaceRecognition' component={FaceRecognition} />
       <Stack.Screen name="BottomTab" component={BottomTab} />
+      <Stack.Screen name='FaceRecognition' component={FaceRecognition} />
       <Stack.Screen name="Setting" component={Setting} />
       <Stack.Screen name="Authstack" component={Authstack} />
     </Stack.Navigator>

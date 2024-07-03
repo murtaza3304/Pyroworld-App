@@ -13,10 +13,11 @@ const FaceRecognition = ({navigation}) => {
   const getStatuss = async () => {
     try {
       const status = await getStatus();
+      console.log("statussssssssssss",status)
       setStatus(status);
     } catch (error) {}
   };
-
+  
   useEffect(() => {
     if (!status) {
       getStatuss();
@@ -24,16 +25,13 @@ const FaceRecognition = ({navigation}) => {
         getStatuss();
       }, 10000);
     }
-   
-    
   }, []);
   useEffect(() => {
+    launchSNSMobileSDK();
     if (status === 'completed') {
       navigation.navigate('BottomTab');
     }
-  }, [status])
-
-  
+  }, [status]);
 
   const launchSNSMobileSDK = async () => {
     try {
@@ -43,8 +41,7 @@ const FaceRecognition = ({navigation}) => {
         try {
           const res = await getToken();
           return res;
-        } catch (error) {
-        }
+        } catch (error) {}
       })
         .withHandlers({
           onStatusChanged: event => {
@@ -71,48 +68,7 @@ const FaceRecognition = ({navigation}) => {
       console.log('SumSub SDK Error: ' + JSON.stringify(error));
     }
   };
-  return (
-     (
-      <View style={{...styles.container, backgroundColor: theme.background}}>
-        {status === 'pending' ? (
-          <>
-            <SvgXml xml={assets.Waiting} />
-
-            <Text style={[styles.subtitle, {color: theme.text}]}>
-              Kyc is being Reviewed
-            </Text>
-          </>
-        ) : status === 'init' ? (
-          <>
-            <Text style={[styles.title, {color: theme.text}]}>KYC /AML</Text>
-
-            <Text style={[styles.subtitle, {color: theme.text}]}>
-              Complete KYC to continue to pyroworld
-            </Text>
-            <View style={styles.cameraContainer}>
-              <SvgXml xml={assets.Kyc} />
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={() => launchSNSMobileSDK()}
-                style={{
-                  backgroundColor: theme.blue,
-                  width: '100%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 45,
-                  borderRadius: 8,
-                }}>
-                <Text style={{color: 'white', fontSize: 16}}>Proceed</Text>
-              </TouchableOpacity>
-            </View>
-          </>
-        ) : (
-          false
-        )}
-      </View>
-    )
-  );
+  return true;
 };
 
 const styles = StyleSheet.create({
