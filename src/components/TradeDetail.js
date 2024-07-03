@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, FlatList, useColorScheme } from 'react-native'
 import React from 'react'
 import { fonts } from '../assets/fonts';
+import { useTheme } from '../assets/theme/Theme';
 
 const TradeDetail = () => {
     const isDarkMode = useColorScheme() === 'dark'
+    const theme = useTheme();
     const data = [
         { id: '4', price: 63243.40, amount: 0.118523 },
         { id: '5', price: 83243.40, amount: 0.118523 },
@@ -25,7 +27,7 @@ const TradeDetail = () => {
       
       const Item = ({ price, amount }) => (  
         <View style={styles.item}>
-          <Text style={styles.price}>{price}</Text>
+          <Text style={[styles.price, {color: theme.blue}]}>{price}</Text>
           <Text style={styles.amount}>{amount}</Text>
         </View>
     
@@ -36,7 +38,7 @@ const TradeDetail = () => {
       );
   return (
     <View style={styles.container}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20}}>
             <Text style={{color:isDarkMode? '#fff' : '#000', fontFamily: fonts.semibold}}>PRICE</Text>
             <Text style={{color:isDarkMode? '#fff' : '#000', fontFamily: fonts.semibold}}>AMOUNT (BTC)</Text>
             <Text style={{color:isDarkMode? '#fff' : '#000', fontFamily: fonts.semibold}}>PRICE</Text>
@@ -60,21 +62,20 @@ export default TradeDetail
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // marginTop: 10,
-        paddingHorizontal: 20
+        height: 200
       },
       item: {
         flexDirection: 'row',
         justifyContent: 'space-between',
           padding: 8,
-       
-        width: '50%'
+          paddingHorizontal: 20,
+            width: '50%'
         
       },
       price: {
         fontSize: 12,
         fontFamily: fonts.regular,
-        color: 'blue'
+        
       },
       amount: {
         fontSize: 12,

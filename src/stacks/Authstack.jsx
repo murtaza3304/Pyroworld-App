@@ -6,37 +6,41 @@ import setting from '../screens/app/Profile/setting';
 import EmailAuthantication from '../screens/auth/EmailAuthantication';
 import PasswordReset from '../screens/auth/PasswordReset';
 import ResetAuthCode from '../screens/auth/ResetAuthCode';
-import NewPassword from '../screens/auth/NewPassword';
+import Welcome from '../screens/auth/Welcome';
 import {useAuth} from '../hooks';
 
 import {useEffect} from 'react';
-import AppStack from './AppStack';
+import AppStack from './Appstack';
 import Loading from '../screens/app/Profile/Loading';
+import {useLoading} from '../context';
+import SplashScreen from '../screens/SplashScreen/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
 function Authstack() {
   const {user, tokens, loading} = useAuth();
-  useEffect(() => {}, [user, tokens, loading]);
+  const {loading: contextLoading} = useLoading();
+  useEffect(() => {}, [user, tokens, loading, contextLoading]);
 
   return loading ? (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Loading" component={Loading} />
     </Stack.Navigator>
-  ) : !user && !tokens ? (
+  ) : (!user && !tokens) || !user.isEmailVerified ? (
     <Stack.Navigator
-      initialRouteName={'Login'}
+      initialRouteName={
+        user && user?.isEmailVerified ? 'EmailAuthantication' : 'Login'
+      }
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="SignUp" component={SignUp} />
-      {/* <Stack.Screen name="setting" component={setting} /> */}
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="ResetAuthCode" component={ResetAuthCode} />
       <Stack.Screen
         name="EmailAuthantication"
         component={EmailAuthantication}
       />
       <Stack.Screen name="PasswordReset" component={PasswordReset} />
-      <Stack.Screen name="ResetAuthCode" component={ResetAuthCode} />
-      <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="AppStack" component={AppStack} />
     </Stack.Navigator>
   ) : (

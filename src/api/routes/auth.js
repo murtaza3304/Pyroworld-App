@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiInstance from '../interceptor';
 
 export const register = async body => {
-  console.log(Url, 'urlllllllllll');
   try {
     const res = await axios.post(`${Url}/auth/register`, body);
     if (res)
@@ -32,7 +31,6 @@ export const forgetPassword = async body => {
   try {
     const res = await axios.post(`${Url}/auth/forgot-password`, body);
     return res.data;
-    // return res.data;
   } catch (error) {
     return error.message;
   }
@@ -41,17 +39,17 @@ export const forgetPassword = async body => {
 export const logout = async navigation => {
   await AsyncStorage.removeItem('tokens');
   await AsyncStorage.removeItem('user');
-  navigation.navigate('AuthStack');
+  navigation.navigate('Authstack');
   navigation.reset();
 };
 
 export const resetPassword = async body => {
   try {
     const res = await axios.post(`${Url}/auth/reset-password`, body);
-    console.log('response', res);
+    // console.log('response', res);
     return res.data;
   } catch (error) {
-    console.error('Error sending OTP:.........', error);
+    // console.error('Error sending OTP:.........', error);
     throw error;
   }
 };

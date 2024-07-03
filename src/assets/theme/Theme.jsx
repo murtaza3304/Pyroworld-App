@@ -1,94 +1,80 @@
-// ThemeContext.js
-
-import React, {useEffect, useState} from 'react';
+// src/assets/theme/Theme.js
 import {useColorScheme} from 'react-native';
 
 export const useTheme = () => {
   const colorScheme = useColorScheme();
-  const [theme, setTheme] = useState(
-    colorScheme === 'dark' ? darkTheme : lightTheme,
-  );
+  return colorScheme === 'dark' ? 'dark' : 'light';
+};
+
+import {useState, useEffect} from 'react';
+
+// Define your hook
+export const useThemeClasses = () => {
+  const theme = useTheme();
+  const [themeClasses, setThemeClasses] = useState({});
 
   useEffect(() => {
-    setTheme(colorScheme === 'dark' ? darkTheme : lightTheme);
-  }, [colorScheme]);
-  return theme;
+    const getTextColorClass = theme => {
+      return theme === 'light' ? 'text-light-textt' : 'text-dark-textt';
+    };
+
+    const getSheetColorClass = theme => {
+      return theme === 'light' ? 'bg-light-sheet' : 'bg-dark-sheet';
+    };
+
+    const getBlueColorClass = theme => {
+      return theme === 'light' ? 'text-light-bluee' : 'text-dark-bluee';
+    };
+    const getReverseBackground = theme => {
+      return theme === 'light' ? 'bg-gray-900' : 'bg-gray-100';
+    };
+    const getBlueBgClass = theme => {
+      return theme === 'light' ? 'bg-light-bluee' : 'bg-dark-bluee';
+    };
+
+    const getRedColorClass = theme => {
+      return theme === 'light' ? 'text-light-red' : 'text-dark-red';
+    };
+
+    const getGreenColorClass = theme => {
+      return theme === 'light' ? 'text-light-green' : 'text-dark-green';
+    };
+
+    const getItemBgColorClass = theme => {
+      return theme === 'light' ? 'bg-light-itembg' : 'bg-dark-itembg';
+    };
+
+    const getGrayColorClass = theme => {
+      return theme === 'light' ? 'border-gray-300' : 'border-gray-600';
+    };
+    const getGrayColorClassText = theme => {
+      return theme === 'light' ? 'text-gray-500' : 'text-gray-400';
+    };
+
+    const getChipColorClass = theme => {
+      return theme === 'light' ? 'bg-light-chip' : 'bg-dark-chip';
+    };
+    const getBorderGrayColorClass = theme => {
+      return theme === 'light' ? 'border-gray-300' : 'border-gray-800';
+    };
+
+    setThemeClasses({
+      textColor: getTextColorClass(theme),
+      sheetColor: getSheetColorClass(theme),
+      blueText: getBlueColorClass(theme),
+      redColor: getRedColorClass(theme),
+      greenColor: getGreenColorClass(theme),
+      itemBgColor: getItemBgColorClass(theme),
+      grayColor: getGrayColorClass(theme),
+      chipColor: getChipColorClass(theme),
+      border: getBorderGrayColorClass(theme),
+      blueBg: getBlueBgClass(theme),
+      textGray: getGrayColorClassText(theme),
+      reverse: getReverseBackground(theme),
+    });
+  }, [theme]);
+
+  return themeClasses;
 };
 
-const lightTheme = {
-  background: '#FFFFFF',
-  text: '#0a1224',
-  blue: '#38B6FF',
-  lightBlue: '#38B6FF',
-  red: '#D70E0E',
-  lightGreen: '#21BF73',
-  green: '#3B9B32',
-  itembg: '#f5f5f5',
-  gray: '#6C757D',
-  chip:"#F61C7A",
-
-
-  flex: {
-    fullRow: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-    },
-    row: {
-      flex: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-    },
-    fullColumn: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-    },
-    column: {
-      flex: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-    },
-  },
-};
-
-const darkTheme = {
-  background: '#0a1224',
-  text: 'white',
-  blue: '#38B6FF',
-  red: '#D70E0E',
-  green: '#3B9B32',
-  itembg: '#202832',
-  gray: '#6C757D',
-  chip:"#F61C7A",
-  flex: {
-    fullRow: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-    },
-    row: {
-      flex: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-    },
-    fullColumn: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-    },
-    column: {
-      flex: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-    },
-  },
-};
+export default useThemeClasses;

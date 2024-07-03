@@ -5,8 +5,9 @@ import {
   forgetPassword,
   resetPassword,
   emailVerification,
-  verifyEmail
+  verifyEmail,
 } from './routes/auth';
+import {getToken, getStatus} from './routes/kyc';
 
 export {
   register,
@@ -15,5 +16,7 @@ export {
   forgetPassword,
   resetPassword,
   emailVerification,
-  verifyEmail
+  verifyEmail,
+  getToken,
+  getStatus
 };
